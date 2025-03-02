@@ -1,0 +1,1173 @@
+\documentclass[12pt]{article}
+%\usepackage{lmodern}
+\usepackage[hmargin=0.5in, vmargin=1in]{geometry}
+\usepackage[T2A]{fontenc}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{graphicx,url}
+\usepackage[dvipsnames]{xcolor}
+%Hyphenation rules
+%--------------------------------------
+\usepackage{hyphenat}
+\hyphenation{ма-те-ма-ти-ка вос-ста-нав-ли-вать}
+%--------------------------------------
+\usepackage[english, russian]{babel}
+\usepackage{enumerate}
+\setlength{\topskip}{0mm}\setlength{\parskip}{1ex}\setlength{\parindent}{0mm}
+\usepackage{enumitem}\setlist{nolistsep}
+
+\usepackage{listings,textcomp,color}
+\lstset{language=C,upquote=true,
+  basicstyle=\footnotesize,commentstyle=\textit,stringstyle=\upshape,
+  numbers=left,numberstyle=\footnotesize,stepnumber=1,numbersep=5pt,
+  backgroundcolor=\color{white},frame=single,tabsize=2,
+  showspaces=false,showstringspaces=false,showtabs=false,
+  breaklines=true,breakatwhitespace=true,escapeinside=||
+}
+
+\usepackage{fancyhdr}\pagestyle{fancy}
+\lhead{Обновлено: \today}\chead{{\bf Математическая логика}}\rhead{}
+
+\usepackage{framed}
+\newenvironment{quo}{
+  \begin{framed}
+    \begin{minipage}{0.97\textwidth}
+      \setlength{\parskip}{4mm}
+    }{
+    \end{minipage}
+\end{framed}}
+
+\usepackage{lastpage}
+\cfoot{Страница \thepage\ из \pageref{LastPage}}
+
+% testing shit
+%---
+\usepackage{cmap}
+\usepackage[X2,T2A]{fontenc} % X2 can be dropped
+\usepackage[utf8]{inputenc}
+% Bunch of math and table packages
+%\usepackage{enumitem}
+
+% list numeration modifiers
+% ---
+%\renewcommand{\theenumi}{\asbuk{enumi}}
+%\renewcommand{\labelenumi}{\textbf{\asbuk{enumi})}}
+\renewcommand{\theenumii}{\arabic{enumii}}
+\renewcommand{\labelenumii}{\arabic{enumii}.}
+\AddEnumerateCounter{\Asbuk}{\@Asbuk}{\CYRM}
+\AddEnumerateCounter{\asbuk}{\@asbuk}{\cyrm}
+% ---
+\usepackage{tikz}
+%---
+
+% some useful ahh shortcuts
+% ---
+\let\im\rightarrow
+\let\eq\equiv
+\let\la\land
+\let\lv\lor
+\let\n\neg
+\let\un\cup
+\let\an\cap
+\let\wot\setminus
+\let\sus\subseteq
+\let\m\cdot
+\let\lmd\lambda
+\let\nin\notin
+\let\x\times
+\let\sd\bigtriangleup
+\let\eps\varepsilon
+\let\lc\lceil
+\let\rc\rceil
+\let\lf\lfloor
+\let\rf\rfloor
+\let\rarr\rightarrow
+\let\ds\displaystyle
+\def\ZZ{\mathbb{Z}}
+\def\II{\mathbb{I}}
+\def\QQ{\mathbb{Q}}
+\def\NN{\mathbb{N}}
+\def\RR{\mathbb{R}}
+\def\ff{\text{\sf \perp}}
+\def\tt{\text{\sf \top}}
+\def\lbr{&&\\\nonumber}
+\def\basedlimit{\lim\limits_{n \to \infty}}
+\def\ans{\tbf{Ответ:} }
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\sq}[1]{\sqrt{#1}}
+\newcommand{\tbf}[1]{\textbf{#1}}
+\newcommand{\tit}[1]{\textit{#1}}
+\newcommand{\task}[2]{
+  \begin{quo}
+    {\bf #1} #2
+\end{quo}}
+\newcommand{\mat}[1]{
+  \begin{gmatrix}[p]
+    #1
+\end{gmatrix}}
+\newcommand{\detm}[1]{
+  \begin{gmatrix}[v]
+    #1
+\end{gmatrix}}
+\newcommand{\zhopa}[1]{$\boxed{\text{#1}}$}
+\newcommand{\asdf}{%
+  \hspace{-\arraycolsep}%
+  \strut\vrule % the `\vrule` is as high and deep as a strut
+  \hspace{-\arraycolsep}%
+}
+\newcommand{\sgn}[1]{\text{sgn}(#1)}
+\newcommand{\md}[1]{\lvert#1\rvert}
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+\newtheorem{theorem}{Теорема}[section]
+\theoremstyle{statement}
+\newtheorem{statement}{Утверждение}[section]
+\theoremstyle{theorem}
+\newtheorem{lemma}{Лемма}[section]
+% ---
+
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{soul}
+\usepackage{mathtools}
+\usepackage{gauss}
+\usepackage{nicematrix}
+\usepackage{breqn}
+\usepackage{permute}
+\usepackage{braket}
+\usepackage[normalem]{ulem}
+\usepackage{systeme}
+\usepackage{bbold}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,
+  urlcolor=cyan,
+  pdftitle={Overleaf Example},
+  pdfpagemode=FullScreen,
+}
+\usepackage{forest}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\g@matrix
+{\vbox\bgroup}
+{\vbox\bgroup\normalbaselines}% restore the standard baselineskip
+{}{}
+\makeatother
+
+\begin{document}
+Снимаю с себя всю ответственность за нули на коллоквиуме, полученные
+из-за прочтения фактов с этого конспекта. По всем неточностям и предложениям:
+\href{https://t.me/helloclock}{@helloclock}.
+\tableofcontents
+\pagebreak
+
+\section{Лекция 1 (введение)}
+
+\begin{definition}
+  \textit{Алфавит} $\Sigma = \set{(, ), \land, \lor, \n, \im} \un
+  \mathrm{Prop}$, где $\mathrm{Prop}$ --- множество пропозициональных
+  переменных. В курсе $\mathrm{Prop} = \set{p, \dots, z, p_1, \dots,
+  z_1, \dots}$.
+\end{definition}
+
+\begin{definition}
+  \textit{Формула} --- последовательность символов из алфавита,
+  определяемая по индукции:
+  \begin{enumerate}
+    \item T и F --- формулы;
+
+    \item $p \in \mathrm{Prop}$ --- формула;
+
+    \item $A$ --- формула $\implies \n A$ --- формула;
+
+    \item $A, B$ --- формулы $\implies (A \land B), (A \lor B), (A
+      \im B)$ --- формулы.
+  \end{enumerate}
+\end{definition}
+
+Формулы удобно представлять в виде дерева, например для формулы
+\begin{displaymath}
+  ((p \land q) \im (\n r \lor p))
+\end{displaymath}
+дерево выглядит следующим образом:
+\begin{figure}[H]
+  \centering
+  \begin{forest}
+    [$\rightarrow$
+      [$\land$
+        [$p$]
+        [$q$]
+      ]
+      [$\lor$
+        [$\neg$
+          [$r$]
+        ]
+        [$p$]
+      ]
+    ]
+  \end{forest}
+\end{figure}
+
+\begin{definition}
+  Пусть $A$ --- последовательность символов в алфавите $\Sigma$:
+  \begin{displaymath}
+    A = a_1 \dots a_n\ (a_j \in \Sigma).
+  \end{displaymath}
+  Тогда $B$ --- \textit{префикс} ($B \sqsubseteq A$), если $B = a_1
+  \dots a_k$ ($k \leqslant n$).
+\end{definition}
+
+\begin{lemma}
+  Если $A$ --- корректная формула и $A'$ --- её префикс, то $A'$ ---
+  не корректная формула.
+\end{lemma}
+
+\begin{lemma}[Об однозначности разбора]
+  Если $A$ --- корректно построена, то верно ровно одно из следующего:
+  \begin{enumerate}
+    \item $A \in \mathrm{Prop}$
+
+    \item $A \in \set{\top, \perp}$
+
+    \item $\exists! B \colon A = \n B$
+
+    \item $\exists! B, C \colon A = (B * C)$, где $* \in \set{\la, \lv, \im}$
+  \end{enumerate}
+\end{lemma}
+
+\pagebreak
+
+\section{Лекция 2 (модели, ДНФ)}
+
+\subsection{Модели}
+
+\begin{definition}
+  \textit{Модель} --- функция $\mathrm{Var} \to \mathbb{B} = \set{0,
+  1}$. Но т.к. Var бесконечно, в программах будем считать моделю
+  любую функцию из конечного множества переменных. В таком случае
+  некоторым переменным значение не приписывается.
+\end{definition}
+
+Модель задаёт интерпретацию истинности всех формул.
+
+Для формулы $A$ \textit{истинность} формулы в модели $M$ задаётся по
+индукции и обозначается $M(A)$:
+\begin{itemize}
+  \item $M(\top) = 1$, $M(\perp) = 0$;
+
+  \item На переменных уже задано;
+
+  \item $M(\n B) = 1 - M(B)$, если $A = \n B$;
+
+  \item $M(B_1 \odot B_2) = M(B_1) \odot M(B_2)$, если $A = (B_1
+    \odot B_2)$, $\odot \in \set{\lor, \land, \im}$.
+\end{itemize}
+
+\begin{definition}
+  \textit{Булевая функция} --- отображение $\mathbb{B}^k \to
+  \mathbb{B}$, задаёт булеву функцию данной формулу для фиксированного
+  порядка переменных.
+\end{definition}
+
+\subsection{Виды формул}
+
+\begin{definition}
+  \textit{Тавтология} --- формула, истинная во всех моделях
+
+  \textbf{Пример:} $p \im p$, $p \lor \n p$
+\end{definition}
+
+\begin{definition}
+  \textit{Тождественно ложная/противоречивая} формула --- формула,
+  ложная во всех моделях.
+
+  \textbf{Пример:} $p \land \n p$
+\end{definition}
+
+\begin{definition}
+  \textit{Выполнимая} формула --- формула, истинная хотя бы в одной модели.
+
+  \textbf{Пример:} $p \land q$\\
+\end{definition}
+
+Пример:
+
+\task{}{Если в пробах с Европы (спутник Юпитера) обнаружены бактерии,
+  то на Европе есть жизнь или бактерии были занесены с Земли. Если
+  бактерии были занесены с Земли, то на Земле есть похожие бактерии. В
+  пробах с Европы обнаружены бактерии, похожие на Земные, следовательно
+на Европе нет жизни.}
+\begin{itemize}
+  \item $p$ --- "В пробах с Европы обнаружены бактерии"
+
+  \item $q$ --- "На Европе есть жизнь"
+
+  \item $r$ --- "Бактерии с Земли"
+
+  \item $s$ --- "Бактерии похожи не Земные"
+\end{itemize}
+
+Утверждение можно записать следующей формулой:
+
+\[
+  \left((p \im q \lor r) \land (r \im s) \land s\right) \im \n q
+\]
+
+Если она тавтологична, то утверждение верно, иначе --- нет.
+
+Чтобы проверить на тавтологичность, надо проверить, есть ли набор
+переменных, для которого формула ложна, тогда она будет не
+тавтологична. Для этого первая скобка должна быть истинной, а вторая
+--- ложной. Отсюда $q = \top$, $(p \im q \lor r) = \top$, $(r \im s)
+= \top$, $s = \top$. Из имеющегося получаем $p = q = r = s = \top$.
+Для этого набора переменных утверждение ложно, т.е. оно не
+тавтологично, а значит --- не истинно во всех моделях. \qed
+
+\subsection{ДНФ}
+
+\begin{definition}
+  \textit{Литерал} --- переменная или её отрицание.
+\end{definition}
+
+\begin{definition}
+  \textit{Элементарная конъюнкция/конъюнкт} --- конъюнкция литералов.
+\end{definition}
+
+\begin{definition}
+  \textit{Дизъюнктивная нормальная форма (ДНФ)} --- дизъюнкция конъюнктов.
+\end{definition}
+
+\begin{definition}
+  \textit{Совершенная дизъюнктивная нормальная форма (СДНФ)}:
+  \begin{itemize}
+    \item Определена для фиксированного множества переменных;
+
+    \item ДНФ, в которой в каждом конъюнкте участвуют все переменные из
+      множества и только один раз.
+  \end{itemize}
+\end{definition}
+
+Построение СДНФ:
+\begin{itemize}
+  \item Можно построить по таблице истинности при условии, что в ней
+    есть хотя бы одна 1;
+
+  \item Каждая строка преобразуется в элементарную конъюнкцию,
+    которая истинна только на данном наборе переменных и ложна на
+    всех остальных;
+
+  \item Итоговая формула --- дизъюнкция построенных конъюнктов.
+\end{itemize}
+
+\begin{theorem}
+  Для любой булевой функции существует булева
+\end{theorem}
+
+\subsection{Алгоритмическая сложность}
+\subsubsection{Задача о нахождении ДНФ по таблице истинности}
+\begin{itemize}
+  \item Прямой алгоритм перебирает строки таблицы истинности;
+
+  \item Полиномиальная сложность по размеру таблицы истинности.
+\end{itemize}
+
+\subsubsection{Задача о проверке тавтологичности}
+\begin{itemize}
+  \item Проверяет, истинна ли формула во всех моделях;
+
+  \item Связана с проблемой SAT (проблема выполнимости);
+
+  \item NP-полнота: нахождение эффективного алгоритма неизвестно;
+
+  \item Есть очень хорошие SAT-решатели, которые применяют различные
+    эвристики и быстро работают на формулах, которые появляются в
+    реальных задачах.
+\end{itemize}
+
+\pagebreak
+
+\section{Лекция 3 (полнота и максимальность)}
+\begin{definition}
+  \textit{Арность} операции (функции) --- количество аргументов.
+\end{definition}
+
+Арность может быть равной 0 --- это константы.
+
+Арность:
+\begin{itemize}
+  \item 0 --- операций всего 2 ($\top, \perp$)
+
+  \item 1 ---
+    \begin{tabular}{c||c|c|c|c}
+      $x$ & $\perp$ & $x$ & $\n x$ & $\top$\\\hline
+      0 & 0 & 0 & 1 & 1\\\hline
+      1 & 0 & 1 & 0 & 1
+    \end{tabular}
+
+  \item 2 ---
+    \begin{tabular}{c|c||c|c|c|c}
+      $x$ & $y$ & $f_1$ & $f_2$ & $f_3$ & $f_4$\\\hline
+      0 & 0 & 0 & 0 & 0 & \dots\\\hline
+      0 & 1 & 0 & 0 & 0 & \dots\\\hline
+      1 & 0 & 0 & 0 & 1 & \dots\\\hline
+      1 & 1 & 0 & 1 & 0 & \dots\\
+    \end{tabular}
+\end{itemize}
+\begin{statement}
+  Штрих Шеффера, имеющий следующую таблицу истинности:
+  \begin{figure}[H]
+    \centering
+    \begin{tabular}{c|c|c}
+      $x$ & $y$ & $x \uparrow y$\\\hline
+      0 & 0 & 1\\\hline
+      0 & 1 & 1\\\hline
+      1 & 0 & 1\\\hline
+      1 & 1 & 0
+    \end{tabular}
+  \end{figure}
+  --- полная операция, для системы $\set{ \uparrow }$ верна
+  теорема о функциональной полноте:
+  \begin{itemize}
+    \item $x \uparrow x = \n x$
+
+    \item $x \uparrow y = \n(x \land y)$
+
+    \item $\n (x \uparrow y) = \n \n (x \land y) = x \land y$
+
+    \item $x \lor y = \n (\n x \land \n y)$
+  \end{itemize}
+\end{statement}
+\begin{statement}
+  Стрелка Пирса, имеющая следующую таблицу истинности:
+  \begin{figure}[H]
+    \centering
+    \begin{tabular}{c|c|c}
+      $x$ & $y$ & $x \downarrow y$\\\hline
+      0 & 0 & 1\\\hline
+      0 & 1 & 0\\\hline
+      1 & 0 & 0\\\hline
+      1 & 1 & 0
+    \end{tabular}
+  \end{figure}
+  --- также
+  полная операция и для неё выполнена теорема о функциональной полноте.
+\end{statement}
+\begin{definition}
+  $G$ --- множество булевых функций, тогда $[G]$ ---
+  \textit{замыкание} множества $G$, т.е. все булевы функции, которые
+  можно выразить формулами, использующими операции из $G$.
+
+  Эквивалентно, $[G]$ --- минимальное множество булевых функций,
+  которое удовлетворяет следующим свойствам:
+  \begin{enumerate}
+    \item $G \subset [G]$;
+
+    \item
+      \begin{enumerate}
+        \item $[G]$ замкнуто относительно композиции;
+
+        \item $\forall f_1, \ldots, f_n \in [G] \land g(x_1, \ldots, x_n)
+          \in G \hookrightarrow g(f_1(x_1, \ldots, x_{m_1}), \ldots,
+          f_n(x_1, \ldots, x_{m_n})) \in [G]$
+      \end{enumerate}
+
+    \item $[G]$ содержит все тождественные проекции, т.е. $\forall n
+      \in \NN, i < n \colon p_i^n(x_1, \ldots, x_n) \eq x_i$
+  \end{enumerate}
+\end{definition}
+\begin{definition}
+  Множество (класс) функций $G$ называется \textit{замкнутым}, если $[G] = G$.
+\end{definition}
+\begin{definition}
+  Класс функций $G$ называется \textit{полным}, если $[G] = F_n$, где
+  $F_n$ --- множество всех булевых функций $n$ переменных.
+\end{definition}
+\begin{definition}
+  Класс $G$ называется \textit{максимальным}, если это замкнутый
+  собственный ($\neq F_n$) класс, такой, что $\forall f \in F_m \wot
+  G \hookrightarrow G \un \set{f}$ --- полный класс. Эквивалентно,
+  $[G \un \set{f}] = F_n$.
+\end{definition}
+\begin{definition}
+  Класс функций $H$ \textit{неполный}, если $\exists\, G$ ---
+  замкнутый, такой, что $G \neq F_n \land H \subset G$.
+\end{definition}
+\begin{lemma}
+  Свойства замыкания:
+  \begin{enumerate}
+    \item $G \subset [G]$
+
+    \item $G \subset H \implies [G] \subset [H]$
+
+    \item $[G] = [[G]]$
+      \begin{proof}
+        $\subset$ --- следует из первых двух пунктов
+
+        $\supset$ --- докажем по индукции. Пусть $f \in [[G]]$. Тогда
+        пункты 1 и 3 из определения тривиальны. Проверим 2.
+
+        Факт: проекции позволяют увеличивать число переменных
+        некоторыми мнимыми. Например, $g(p_1^3(x_1, x_2, x_3),
+        p_2^3(x_1, x_2, x_3))$.
+
+        Пусть $f(x_1, \ldots, x_n) = g(f_1(x_1, \ldots, x_n), \ldots,
+        f_n(x_1, \ldots, x_n))$. По предположению индукции $f_i \in
+        [G]\ \forall\, i$. Таким образом, $f \in [G]$ как композиция.
+      \end{proof}
+  \end{enumerate}
+\end{lemma}
+\begin{lemma}
+  $H$ не является полной $\iff$ $\exists\, G$ --- максимальная и $H
+  \subseteq G$.
+  \begin{proof}
+    $\impliedby$ --- очевидно \copyright
+
+    $\implies$ если $H$ --- неполная, тогда $[H]$ --- замкнута и неполна.
+    \begin{enumerate}
+      \item Случай 1: $[H]$ --- максимальна, тогда всё хорошо.
+
+      \item Случай 2: $[H]$ --- не максимальна $\implies \exists\, f
+        \in F_m \wot [H] \colon [[H] \un \set{f}] \neq F_m$. Тогда
+        пусть $H := [H] \un \set{f}$ и вернёмся в начало.
+        Теоретически, этот процесс может не сойтись. Сходимость
+        доказывается леммой Цорна и трансфинитной индукцией или из
+        теоремы Поста.
+    \end{enumerate}
+  \end{proof}
+\end{lemma}
+\begin{theorem}[Поста]
+  $T_0 = \set{f \mid f(0, \ldots, 0) = 0}$
+  \begin{lemma}
+    $T_0$ --- максимальный замкнутый класс.
+    \begin{proof}
+      \begin{itemize}
+        \item Замкнутость:
+          \begin{displaymath}
+            \underbrace{g}_{\in T_0}(\underbrace{f_1(\vec{0})}_{\in
+              T_0}, \ldots,
+            \underbrace{f_n(\vec{0})}_{\in T_0}) = 0
+          \end{displaymath}
+
+        \item Максимальность:
+          Пусть $h \nin T_0$, тогда $h(0, \ldots, 0) = 1$. Получаем два случая:
+          \begin{itemize}
+            \item $h(1, \ldots, 1) = 1 \implies h(x, \ldots, x) \eq 1$
+
+            \item $h(1, \ldots, 1) = 0 \implies h(x, \ldots, x) \eq \n x$
+          \end{itemize}
+          Имея отрицание (из второго пункта) получим конъюнкцию, а
+          имея её и отрицание выразим все остальные операции.
+
+          Если же $h(x, \dots, x) = 1$, то просто возьмём полную
+          систему $\set{\oplus, \la, 1}$. Для каждой и функций
+          множества принадлежность к классу $T_0$ очевидна.
+      \end{itemize}
+    \end{proof}
+  \end{lemma}
+
+  \begin{definition}
+    $T_1 = \set{f \mid f(1, \ldots, 1) = 1}$. Лемма и её
+    доказательство аналогичны $T_0$, за исключением того, что если
+    $h(x, \dots, x) = 0$, то берём полную систему $\set{\im, \perp}$.
+  \end{definition}
+\end{theorem}
+
+\pagebreak
+
+\section{Лекция 4 (теорема Поста)}
+
+\subsection{Продолжение про классы функций}
+
+\begin{definition}
+  $M$ --- класс монотонных функций, содержащий функции, неубыващие по
+  каждому аргументу. Т.е., если для наборов аргументов
+  \begin{displaymath}
+    f(x_1, \dots, x_n), f(y_1, \dots, y_n)
+  \end{displaymath}
+  верно
+  \begin{displaymath}
+    x_1 \leqslant y_1, \dots, x_n \leqslant y_n,
+  \end{displaymath}
+  то выполняется
+  \begin{displaymath}
+    f(\vec{x}) \leqslant f(\vec{y}).
+  \end{displaymath}
+  Пример монотонной функции: $x_1 \la x_2$.
+
+  Пример немонотонной функции: $x_1 \im x_2$.
+\end{definition}
+
+\begin{lemma}
+  $M$ является максимальным замкнутым классом.
+
+  \begin{proof}
+    Докажем замкнутость. Возьмём набор функций
+    \begin{displaymath}
+      g(x_1, \dots, x_n), f_1(y_1, \dots, y_m), \dots, f_n(y_1,
+      \dots, y_m) \in M.
+    \end{displaymath}
+    Рассмотрим $g(f_1(\vec{y}), \dots, f_n(\vec{y}))$, и возьмём
+    $\vec{y'}$ такой, что $\forall i \colon y_i \leqslant y'_i$.
+    Тогда $\forall i \colon f_i(\vec{y}) \leqslant f_i(\vec{y'})$,
+    откуда получаем $g(f_1(\vec{y}), \dots, f_n(\vec{y})) \leqslant
+    g(f_1(\vec{y'}), \dots, f_n(\vec{y'}))$.
+
+    Теперь докажем максимальность. Возьмём $h \nin M$. Заметим, что
+    $0, 1 \in M$. Тогда $\exists x_1 \leqslant y_1, \dots, x_m
+    \leqslant y_m \colon h(\vec{x}) > h(\vec{y})$, т.е. $h(\vec{x}) =
+    1$ и $h(\vec{y}) = 0$. Пусть $\vec{x} \preccurlyeq
+    \vec{y} \iff x_1 \leqslant y_1 \la \dots \la x_n \leqslant y_n$.
+
+    \begin{lemma}[Вспомогательная лемма]
+      Пусть $\vec{x} \preccurlyeq \vec{y}$. Тогда $\exists \vec{x}^1,
+      \dots, \vec{x}^k \colon \vec{x}^1 = \vec{x} \la \vec{x}^k =
+      \vec{y}$ и $\vec{x}^i$ отличается от $\vec{x}^{i+1}$ в одной
+      координате и $\vec{x} = \vec{x}^1 \preccurlyeq \vec{x}^2
+      \preccurlyeq \dots \preccurlyeq \vec{x}^k = \vec{y}$.
+      \begin{proof}
+        Доказательства не было, интуитивно --- путь в $n$-мерном
+        булевом кубе от вершины $\vec{x}$ до вершины $\vec{y}$.
+      \end{proof}
+    \end{lemma}
+    Посмотрим значение функции $h$ на точках $\vec{x}^i$. Тогда
+    $h(\vec{x}^1) = 1$, $h(\vec{x}^k) = 0$. Понятно, что тогда
+    $\exists i \colon h(\vec{x}^i) = 1 \la h(\vec{x}^{i+1}) = 0$.
+    Пусть у $\vec{x}^i$ на $j$-ой позиции стоит 0, а у
+    $\vec{x}^{i+1}$ --- 1. Получаем
+    \[
+      h(\dots \underbrace{0}_j \dots) = 1, h(\dots \underbrace{1}_j
+      \dots) = 0 \implies h(\dots \underbrace{p}_j \dots) = \n p
+    \]
+    Таким образом получили отрицание. С другой стороны, конъюнкция
+    также монотонна, а с помощью этих двух функций уже выразим все остальные.
+  \end{proof}
+\end{lemma}
+
+\begin{definition}
+  $S$ --- класс самодвойственных функций, т.е функций, удовлетворяющих условию
+  \begin{displaymath}
+    f(\overline{x_1}, \dots, \overline{x_n}) = \overline{f}(x_1, \dots, x_n)
+  \end{displaymath}
+  Пример несамодвойственной функции: $x \la y$.
+
+  Пример самодвойственной функции: $\n x$, $x \oplus y \oplus z$.
+\end{definition}
+\begin{lemma}
+  $S$ является максимальным замкнутым классом.
+  \begin{proof}
+    Докажем замкнутость. Пусть
+    \begin{displaymath}
+      f_1, \dots, f_n \colon \mathbb{B}^m \to \mathbb{B}; g \colon
+      \mathbb{B}^n \to \mathbb{B} \in S
+    \end{displaymath}
+    Рассмотрим $g(f_1(\overline{y_1}, \dots, \overline{y_m}), \dots,
+    f_n(\overline{y_1}, \dots, \overline{y_m})) =
+    g(\overline{f_1(\vec{y})}, \dots, \overline{f_n(\vec{y})}) =
+    \overline{g(f_1(\vec{y}), \dots, f_n(\vec{y}))}$.
+
+    Докажем максимальность. Пусть $h \nin S$, тогда $\exists x_1,
+    \dots, x_n \colon h(\overline{x_1}, \dots, \overline{x_n}) =
+    h(x_1, \dots, x_n)$.
+
+    Обозначим $p^0 = \n p$, $p^1 = p$. Тогда $h(p^{x_1}, \dots,
+    p^{x_n}) = h(\overline{p^{x_1}}, \dots, \overline{p^{x_n}})$. Заметим, что
+    \begin{displaymath}
+      h(0^{x_1}, \dots, 0^{x_n}) = h(\overline{x_1}, \dots,
+      \overline{x_n}),\ h(1^{x_1}, \dots, 1^{x_n}) = h(x_1, \dots, x_n)
+    \end{displaymath}
+    Пусть $g(p) := h(p^{x_1}, \dots, p^{x_n})$, тогда возможно два случая:
+    \begin{enumerate}
+      \item $g(p) \eq 1$, тогда получаем $\n 1 = 0$
+
+      \item $g(p) \eq 0$, тогда получаем $\n 0 = 1$
+    \end{enumerate}
+    Рассмотрим $x_1 \la x_2 \oplus x_2 \la x_3 \oplus x_1 \la x_3$.
+    Тогда в поле $\mathbb{F}_2$ получаем:
+    \begin{align*}
+      (x_1 + 1)(x_2 + 1) + (x_2 + 1)(x_3 + 1) + (x_1 + 1)(x_3 + 1) &=
+      \dots =\\&=
+      x_1x_2 + x_2x_3 + x_1x_3 + 1 =\\&= \overline{x_1x_2 + x_2x_3 + x_1x_3}
+    \end{align*}
+  \end{proof}
+\end{lemma}
+
+\begin{definition}
+  \textit{Многочлен Жегалкина} --- многочлен над полем
+  $\mathbb{F}_2$. Эквивалентно можно считать, что это формула с
+  операциями $\la, \oplus, 1$, представляющая из себя сумму $\oplus$
+  элементарных конъюнкций (\textit{одночленов Жегалкина}) и, возможно, 1.
+\end{definition}
+
+\begin{lemma}
+  Все булевы функции однозначно (с точностью до перестановки
+  слагаемых и сомножителей) представляются в виде многочлена Жегалкина.
+  \begin{proof}
+    Всего одночленов Жегалкина от $n$ переменных $2^n$. Всего
+    многочленов Жегалкина, соответственно, $2^{2^n}$. Булевых функций
+    $\mathbb{B}^n \to \mathbb{B}$ тоже $2^{2^n}$. А т.к. каждая
+    булева функция представима в виде многочлена Жегалкина (т.е. есть
+    сюръекция) и их число одинаково, то имеем и биекцию между ними.
+  \end{proof}
+\end{lemma}
+
+\begin{definition}
+  \textit{Степень} многочлена Жегалкина равна количеству переменных в
+  нём. \textit{Линейными} называются многочлены, в которых все
+  одночлены степени не больше 1.
+\end{definition}
+
+\begin{definition}
+  $L$ --- класс функций, эквивалентных некоторому линейному
+  многочлену Жегалкина.
+\end{definition}
+
+\begin{lemma}
+  $L$ является максимальным замкнутым классом.
+  \begin{proof}
+    Пусть $g \nin L$, $0, 1 \in L$ и определим $g(x_1, \dots, x_n) =
+    x_1x_2\dots x_m + \dots$
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}[Поста]
+  Множество булевых функций $H$ не является полным тогда и только
+  тогда, когда оно содержится в одном из классов $T_0, T_1, M, S, L$.
+  \begin{proof}
+    План доказательства:
+    \begin{itemize}
+      \item $\impliedby$: Если $H$ содержится в каком-то собственном
+        замкнутом классе, то он не полон;
+
+      \item $\implies$: Покажем обратное. Пусть $H$ не лежит целиком
+        ни в одном из перечисленных классов:
+        \begin{itemize}
+          \item Возьмём функцию $f_0 \in H \colon f_0 \nin T_0$.
+            Тогда $f_0(x, \dots, x)$ либо равна 0, либо $\n x$.
+
+          \item Возьмём функцию $f_1 \in H \colon f_1 \nin T_1$.
+            Тогда $f_1(x, \dots, x)$ либо равна 0, либо $\n x$.
+
+          \item Если есть $\n x$: используем несамодвойственную
+            функцию $f_S$ и получим одну из констант.
+
+          \item Если есть 0 и 1, тогда используем немонотонную
+            функцию $f_M$ и получим отрицание $\n x$.
+
+          \item У нас есть 0, 1 и $\n$. Используя нелинейную функцию
+            $f_L$ можем получить $\la$
+        \end{itemize}
+    \end{itemize}
+  \end{proof}
+\end{theorem}
+
+\subsection{Замены}
+
+\begin{definition}
+  Замену переменной $p$ на формулу $\psi$ в формуле $\varphi$
+  обозначается $\varphi[p/\psi]$.
+\end{definition}
+
+\begin{theorem}
+  Пусть формулы $\psi_1$ и $\psi_2$ имеют одинаковые таблицы
+  истинности ($\psi_1 \eq \psi_2$), тогда для любой формулы $\varphi$
+  \begin{displaymath}
+    \varphi[p/\psi_1] \eq \varphi[p/\psi_2]
+  \end{displaymath}
+  \begin{proof}
+    По индукции:
+
+    \textbf{База}: для $\varphi = \perp / \top$ очевидно, как и для
+    $\varphi = q \neq p$. Для $\varphi = p$ получаем $\varphi[p /
+    \psi_1] = \psi_1$ и $\varphi[p / \psi_2] = \psi_2$, а они равны.
+
+    \textbf{Шаг}: $\varphi = \varphi_1 \la \varphi_2$
+
+    $\varphi[p / \psi_1] = \varphi_1[p / \psi_1] \la \varphi_2[p /
+    \psi_1]$, аналогично для $\psi_2$. Тогда, по предположению
+    индукции, $\varphi_1[p / \psi_1] \eq \varphi_1[p / \psi_2]$ и
+    $\varphi_2[p / \psi_1] \eq \varphi_2[p / \psi_2]$, а объединение
+    этих формул не влияет на эквивалентность.
+  \end{proof}
+\end{theorem}
+
+\pagebreak
+
+\section{Лекция 5 (выводы)}
+
+\subsection{Правила вывода}
+
+\begin{definition}
+  \textit{Правилом вывода} будем называть пару, состоящую из
+  множества формул $\Gamma$ и одной формулы $\varphi$. При этом
+  $\Gamma$ может быть пустым. $\Gamma$ будем называть множеством
+  \textit{посылок}, а формулу $\varphi$ \textit{заключением}. Правила
+  вывода обычно записывают так:
+  \begin{displaymath}
+    \frac{\Gamma}{\varphi}\ \text{или}\ \frac{\psi_1, \dots, \psi_n}{\varphi}
+  \end{displaymath}
+  Теоретически можно рассматривать правила, в которых $\Gamma$
+  бесконечно, такие правила называются \textit{инфинитарными}, но мы
+  так делать не будем, у нас всё конечно.
+
+  Пусть $\Gamma$ --- множество формул (необязательно конечное), и
+  $\varphi$ --- формула. Будем говорить, что из $\Gamma$
+  \textit{логически следует} $\varphi$, если в любой модели $M$, в
+  которой истинны все формулы из $\Gamma$ истинна и формула $\varphi$
+  (обозначение: $\Gamma \models \varphi$). Правило
+  $\frac{\Gamma}{\varphi}$ называется \textit{корректным}, если
+  $\Gamma \models \varphi$.
+\end{definition}
+
+Пример корректных правил: $\ds \frac{p}{p}$, $\ds \frac{p \im q, q
+\im r}{p \im r}$ (силлогизм); пример некорректных правил: $\ds
+\frac{}{p}$, $\ds \frac{p}{p \land q}$.
+
+\begin{definition}
+  Правило вывода $\ds\frac{\Delta}{\psi}$ является частным случаем
+  правила $\ds\frac{\Gamma}{\phi}$, если существуют формулы $\theta_1,
+  \dots, \theta_n$ и переменные $p_1, \dots, p_n$, такие что первое
+  правило получается из второго путём одновременной подстановки
+  формул $\theta_i$ вместо каждого вхождения переменной $p_i$ во всех
+  посылках правила $\psi$ (с сохранением их порядка), а также в его заключении.
+\end{definition}
+
+Например, $\ds\frac{(x \im x) \land (\n y)}{x \im x}$ --- частный
+случай правила $\ds\frac{p \land q}{p}$.
+
+Мы будем рассматривать наши правила выводов как схемы, т.е. одно
+правило --- по сути бесконечно много правил, включающее все частные
+случаи данного правила.
+
+\begin{definition}
+  Пусть у нас есть множество правил вывода $\mathcal{R}$,
+  \textit{выводом} в $\mathcal{R}$ из множества \textit{гипотез}
+  $\Gamma$ будем называть последовательность формул, каждая из
+  которых либо принадлежит $\Gamma$, либо получена с помощью частного
+  сдучая некоторого правила из $\mathcal{R}$, при этом множество
+  посылок должно состоять только из формул, которые появлялись в выводе раньше.
+
+  Формула $\varphi$ \textit{выводится} из $\Gamma$ в $\mathcal{R}$
+  ($\Gamma \vdash_{\mathcal{R}} \varphi$), если существует вывод из
+  $\Gamma$ в $\mathcal{R}$, заканчивающийся формулой $\varphi$.
+
+  Если формула $\varphi$ выводится из пустого множества гипотез в
+  $\mathcal{R}$, то мы говорим, что $\varphi$ выводима в
+  $\mathcal{R}$ и записывается как $\vdash_{\mathcal{R}} \varphi$.
+\end{definition}
+
+Пример:
+\[
+  \mathcal{R} = \set{\frac{p \im q, q \im r}{p \im r}, \frac{p}{\n\n
+  p}},\ \Gamma = \set{p \im \n p}
+\]
+
+Тогда примером вывода будет:
+\begin{align*}
+  &p \im \n p\\
+  &\n\n(p \im \n p)
+\end{align*}
+
+Первое правило из $\mathcal{R}$ мы использовать для вывода не можем.
+Добавим в $\Gamma$ гипотезу $\n p \im q$. Тогда, можем дополнить вывод до
+\begin{align*}
+  &\n p \im q\\
+  &p \im q.
+\end{align*}
+
+Таким образом, $\Gamma \vdash_{\mathcal{R}} p \im q$
+
+\begin{theorem}
+  Если все правила в $\mathcal{R}$ корректны и $\Gamma
+  \vdash_{\mathcal{R}} \varphi$, то $\Gamma \models \varphi$.
+  \begin{proof}
+    По индукции. Знаем, что для $\varphi_1, \dots, \varphi_n \colon
+    \forall i \colon \Gamma \models \varphi_i$.
+
+    \textbf{База}: $i = 1 \implies$
+    \begin{enumerate}
+      \item $\varphi_1 \in \Gamma \implies \varphi_1$ истинная в модели;
+
+      \item $\ds\frac{}{\varphi_1}$ --- частный случай правила из
+        $\mathcal{R}$. Отсюда $\varphi_1$ --- тавтология $\implies
+        \mathcal{M} \models \varphi_1$.
+    \end{enumerate}
+
+    \textbf{Шаг}: пусть $\forall j < i \colon \Gamma \models
+    \varphi_j$. Докажем для $\varphi_i$.
+
+    \begin{enumerate}
+      \item $\varphi_i \in \Gamma \implies \mathcal{M} \models \varphi_i$
+
+      \item $\exists j_1, \dots, j_k < i \colon \ds\frac{\varphi_{j_1},
+        \dots, \varphi{j_k}}{\varphi_i}$ --- частный случай правила
+        из $\mathcal{R}$. Тогда по предположению индукции
+        $\varphi_{j_1}, \dots, \varphi_{j_k}$ истинны в $\mathcal{M}$.
+
+        \begin{lemma}
+          Если $\ds\frac{\phi_1, \dots, \phi_n}{\phi}$ корректно и
+          $\frac{\eta_1, \dots, \eta_n}{\eta}$ --- частный случай
+          $(P)$, то оно тоже корректно.
+          \begin{proof}
+            Имеем $\eta_1 = \psi_1[p_1/\theta_1, p_2/\theta_2, \dots,
+            p_n /\theta_n], \dots, \xi = \varphi[p_1/\theta_1, p_2/\theta_2,
+            \dots, p_n/\theta_n]$
+
+            $P$ --- корректна $\implies$ $\forall \mathcal{M} \colon
+            \psi_1, \dots, \psi_n$ истинны $\implies \varphi$ --- истинна.
+
+            Пусть $\eta_1, \dots, \eta_n$ истинны в модели
+            $\mathcal{M}$. Возьмём $\mathcal{M}'$ такую, что
+            $\forall i \colon \mathcal{M}' \models p_i \iff \mathcal{M} \models
+            \theta_i$.
+
+            Утверждение: $\forall \varphi \colon \mathcal{M} \models
+            \varphi \iff \mathcal{M} \models \varphi[p / \theta_1]$.
+            Доказывается индукцией по длине $\varphi$.
+          \end{proof}
+        \end{lemma}
+        Тогда по лемме $\varphi_i$ истинна в $\mathcal{M}$.
+    \end{enumerate}
+  \end{proof}
+\end{theorem}
+
+\subsection{Конкретные правила}
+
+\begin{definition}
+  \textit{Modus Ponens}:
+  \[
+    \frac{p, p \im q}{q}
+  \]
+\end{definition}
+
+\begin{definition}
+  \textit{Аксиомы Гильберта}:
+  \begin{enumerate}
+    \item $(I1)$:
+      \[
+        q \im (p \im q)
+      \]
+
+    \item $(D)$:
+      \[
+        (p \im (q \im r)) \im ((p \im q) \im (p \im r))
+      \]
+
+    \item $(N)$:
+      \[
+        (\n q \im \n p) \im (p \im q)
+      \]
+  \end{enumerate}
+\end{definition}
+
+\pagebreak
+
+\section{Лекция 6 (продолжение про выводы)}
+
+\begin{definition}
+  Правило $\frac{\Gamma}{\varphi}$ называется \textit{допустимым} в
+  множестве правил вывода $\mathcal{R}$, если
+  \begin{displaymath}
+    \Gamma \vdash_{\mathcal{R}} \varphi
+  \end{displaymath}
+\end{definition}
+
+\begin{lemma}
+  Если $\frac{\Gamma}{\varphi}$ --- допустимое в $\mathcal{R}$
+  правило, а $\frac{\Delta}{\varphi}$ --- частный случай правила
+  $\frac{\Gamma}{\psi}$, то
+  \begin{displaymath}
+    \Delta \vdash_{\mathcal{R}} \psi
+  \end{displaymath}
+\end{lemma}
+
+\begin{theorem}[The Lemma Theorem]
+  Если правило $\rho$ допустимо (доказуемо) в множестве правил вывода
+  $\mathcal{R} \un \lambda$ и при этом $\lambda$ допустимо в
+  $\mathcal{R}$, то и $\rho$ допустимо в $\mathcal{R}$.
+  \begin{proof}
+    TODO
+  \end{proof}
+\end{theorem}
+
+\subsection{Примеры допустимых правил}
+Пусть $\mathcal{R} = \set{I1, D, N, MP}$, тогда в $\mathcal{R}$
+допустимы правила
+\begin{displaymath}
+  (I0)\frac{}{p \im p},\ \frac{p \im q, q \im r}{p \im r},\ \frac{p
+  \im q, p \im \n q}{\n p}
+\end{displaymath}
+
+\begin{theorem}[Теорема о дедукции]
+  Если $\mathcal{R}$ --- множество правил вывода, содержащее $(MP)$,
+  $(I1)$ и $(D)$, и все остальные правила являются аксиомами (пустое
+  множество посылок), то для любых формул $\varphi$, $\psi$ и
+  множества формул $\Gamma$ верно
+  \begin{displaymath}
+    \Gamma \un \set{\varphi} \vdash_{\mathcal{R}} \psi \iff \Gamma
+    \vdash_{\mathcal{R}} (\varphi \im \psi)
+  \end{displaymath}
+  \begin{proof}
+    В одну сторону можно усилить утверждение
+
+    \begin{lemma}
+      Если $\mathcal{R}$ --- множество правил вывода, содержащее $(MP)$,
+      то для любых формул $\varphi$, $\psi$ и множества формул $\Gamma$ верно
+      \[
+        \Gamma \vdash_{\mathcal{R}} (\varphi \im \psi) \implies \Gamma
+        \un \set{\varphi} \vdash_{\mathcal{R}} \psi
+      \]
+      \begin{proof}
+        Пусть есть набор формул $\Gamma$, $\varphi \im \psi$, $\varphi$.
+        Тогда по modus ponens $\psi$.
+      \end{proof}
+    \end{lemma}
+
+    Осталось доказать, что $\Gamma \un \set{\varphi}
+    \vdash_{\mathcal{R}} \psi \implies \Gamma \vdash_{\mathcal{R}}
+    (\varphi \im \psi)$.
+
+    Будем доказывать индукцией по длине вывода. Пусть $\xi_1, \xi_2,
+    \dots, \xi_n = \psi$ --- вывод из $\Gamma \un \set{\varphi}$.
+    Будем доказывать, что для любого $i \leqslant n$ верно
+    \[
+      \Gamma \vdash_{\mathcal{R}} (\varphi \im \xi_i)
+    \]
+    Разберём случаи:
+    \begin{itemize}
+      \item Возьмём $\xi_i = \varphi$. Докажем, что $\Gamma
+        \vdash_{\mathcal{R}} (\varphi \im \varphi)$. Но уже
+        доказывали (в ДЗ), что из пустого множества посылок доказуемо
+        выражение $p \im p$, а $\varphi \im \varphi$ --- его частный вид.
+
+      \item Пусть теперь $\xi_i \in \Gamma$. Тогда нужно построить
+        вывод $\Gamma \vdash_{\mathcal{R}} (\varphi \im \xi_i)$. Тогда
+        \begin{enumerate}
+          \item $\xi_i$
+
+          \item $\xi_i \im (\varphi \im \xi_i)$ $(I0)$
+
+          \item $\varphi \im \xi_i$ $(MP)$
+        \end{enumerate}
+
+      \item $\xi_i$ получена по правилу $(I1)$ или $(D)$ (с пустым
+        множеством посылок). То же самое вроде.
+
+      \item $\xi_i$ получена по правилу $(MP)$ из $\xi_j$ и $\xi_k$.
+        Тогда $\xi_k$ имеет вид $\xi_j \im \xi_i$. По предположению
+        индукции $\Gamma \vdash_{\mathcal{R}} (\varphi \im \xi_j)$ и
+        $\Gamma \vdash_{\mathcal{R}} \underbrace{(\varphi \im (\xi_j
+        \im \xi_i))}_{\xi_k}$. Тогда вывод будет иметь вид $\dots
+        \varphi \im \xi_j \dots \varphi \im (\xi_j \im \xi_i)$.
+
+        Формула $(\varphi \im (\xi_j \im \xi_i)) \im ((\varphi \im
+        \xi_j) \im (\varphi \im \xi_i))$ есть частный случай $(D)$.
+        Тогда, применив modus ponens к нему и последнему правилу
+        предыдущего абзаца получаем $((\varphi \im \xi_j) \im
+        (\varphi \im \xi_i))$. Получаем $(\varphi \im \xi_i)\ (MP)$.
+    \end{itemize}
+  \end{proof}
+\end{theorem}
+
+\subsection{Противоречивость и непротиворечивость}
+
+Рассмотрим аксиому
+\begin{displaymath}
+  (I2)\ (\n p \im (p \im q))
+\end{displaymath}
+
+Пусть $\mathcal{R}$ --- множество правил вывода, которое включает MP,
+I0 и I2, а также может дополнительно включать только правила вывода
+без посылок. Множество формул $\Gamma$ называется (синтаксически)
+\textit{противоречивым} (\textit{inconsistent}) (относительно
+$\mathcal{R}$), если
+выполняется одно из следующих пяти эквивалентных условий:
+\begin{itemize}
+  \item Формула $\n(p \im p)$ выводится из $\Gamma$ в $\mathcal{R}$
+    ($\Gamma \vdash_{\mathcal{R}} \n (p \im p))$
+
+  \item Отрицание некоторой аксиомы выводимо из $\Gamma$
+
+  \item $\Gamma \vdash_{\mathcal{R}} \varphi$ и $\Gamma
+    \vdash_{\mathcal{R}} \n \varphi$ для некоторой формулы $\varphi$
+
+  \item Из $\Gamma$ можно вывести в $\mathcal{R}$ любую формулу (вообще любую)
+
+  \item Отрицание всех аксиом доказуемы в $\mathcal{R}$ из $\Gamma$
+\end{itemize}
+
+Множество формул, которое не является противоречивым, называется
+\textit{непротиворечивым} (\textit{consistent}).
+
+\begin{proof}
+  $5 \implies 1$, $1 \implies 2$: очевидно.
+
+  $2 \implies 3$:
+
+  Пусть есть $\alpha$ --- аксиомы из $\mathcal{R}$ и $\varphi =
+  \alpha$, тогда $\Gamma \vdash_{\mathcal{R}} \alpha$. С другой
+  стороны, $\Gamma \vdash_{\mathcal{R}} \n \alpha$ из предположения.
+
+  $3 \implies 4$:
+
+  Имеем вывод вида $\dots \varphi \dots \n \varphi$. Тогда пусть
+  $\psi$ --- любая формула, тогда можем записать $(\n \varphi
+  \im (\varphi \im \psi))\ (I2),\ \varphi \im \psi (MP),\ \psi\ (MP)$
+
+  $4 \implies 5$: опять очевидно.
+\end{proof}
+
+\begin{theorem}
+  Пусть $\set{MP, I1, D, N} \sus \mathcal{R}$ и, кроме MP, все
+  правила в $\mathcal{R}$ без посылок. Для любого множества формул
+  $\Gamma$ и формулы $\varphi$ верно, что $\Gamma \un \set{\n
+  \varphi}$ противоречиво в $\mathcal{R}$, тогда $\Gamma
+  \vdash_{\mathcal{R}} \varphi$. Т.е.,
+  \begin{displaymath}
+    \Gamma \un \set{\n \varphi} \vdash_{\mathcal{R}} \n (p \im p)
+    \implies \Gamma \vdash_{\mathcal{R}} \varphi
+  \end{displaymath}
+  \begin{proof}
+    По теореме о дедукции, левая часть последнего утверждения
+    равносильна $\Gamma \vdash_{\mathcal{R}} (\n \varphi \im \n (p \im p))$.
+
+    Тогда имеем вывод
+    \begin{enumerate}
+      \item $\n \varphi \im \n (p \im p)$
+
+      \item $(\n \varphi \im (p \im p)) \im ((p \im p) \im \varphi)$ $(N)$
+
+      \item $(p \im p) \im \varphi$ $(MP)$
+
+      \item $p \im p$
+
+      \item $\varphi$
+    \end{enumerate}
+  \end{proof}
+\end{theorem}
+
+\begin{lemma}
+  Пусть $\mathcal{R} = \set{MP, I1, D, N}$, тогда правило I2
+  допустимо в $\mathcal{R}$, т.е.
+  \begin{displaymath}
+    \vdash_{\mathcal{R}} (\n p \im (p \im q))
+  \end{displaymath}
+  \begin{proof}
+    Хотим доказать $\n p \vdash_{\mathcal{R}} (p \im q)$.
+
+    Построим вывод. Гипотеза --- $\n p$, тогда
+    \begin{enumerate}
+      \item $\n p \im (\n q \im \n p)$ (I1)
+
+      \item $\n q \im \n p$ (MP)
+
+      \item $(\n q \im \n p) \im (p \im q)$ (N)
+
+      \item $p \im q$ (MP)
+    \end{enumerate}
+  \end{proof}
+\end{lemma}
+
+\end{document}
