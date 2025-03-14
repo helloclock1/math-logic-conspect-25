@@ -1170,4 +1170,529 @@ $\mathcal{R}$), если
   \end{proof}
 \end{lemma}
 
+\pagebreak
+
+\section{Лекция 7}
+
+\subsection{Основное множество правил}
+
+TODO: про полноту че то
+
+Modus Ponens (MP):
+\[
+  \frac{p, p \im q}{q}
+\]
+\begin{align*}
+  (I0)\ &(p \im p)\\
+  (I1)\ &(q \im (p \im q))\\
+  (D)\ &((p \im (q \im r)) \im ((p \im q) \im (p \im r)))\\
+  (I2)\ &(\n p \im (p \im q))\\
+  (N)\ &((\n q \im \n p) \im (p \im q))\\
+  (NI)\ &(p \im (\n q \im \n (p \im q)))\\
+  (NN)\ &(p \im \n\n p)\\
+  (R)\ &((q \im p) \im ((\n q \im p) \im p))
+\end{align*}
+Будем писать $\vdash$ (без индекса) для выводимости в этом множестве правил.
+
+На самом деле, обязательными являются лишь правила I1, D, N.
+
+Обозначим систему аксиом Гильберта как $\mathcal{H}$.
+
+\begin{definition}
+  Пусть $\varphi$ --- формула, и $b \in \set{\mathrm{True},
+  \mathrm{False}}$, тогда
+  \[
+    \varphi^b =
+    \begin{cases}
+      \varphi,\ b = \mathrm{True}\\
+      \n \varphi,\ b = \mathrm{False}
+    \end{cases}
+  \]
+\end{definition}
+
+\begin{definition}
+  Пусть $M$ --- некоторая конечная модель , т.е. отображение из
+  конечного множества переменных в множество $\set{\mathrm{True},
+  \mathrm{False}}$.
+
+  Определим множество формул
+  \[
+    \Gamma_M = \bigcup_{M[p] = b} \set{p^b}
+  \]
+\end{definition}
+
+\begin{lemma}
+  Пусть $\varphi$ --- формула, и $M$ оценивает все формулы из
+  $\varphi$ и $M[\varphi]$ --- истинностное значение формулы
+  $\varphi$ при оценке $M$, тогда
+  \[
+    \Gamma_M \vdash \varphi^{M[\varphi]}
+  \]
+  \begin{proof}
+    Доказательство индукцией по длине формулы:
+
+    \textbf{База}: $\varphi = p$. Утверждение следует из того, что $p
+    \vdash p$ и $\n p \vdash \n p$.
+
+    \textbf{Шаг}:
+    \begin{itemize}
+      \item $\varphi = \n \psi$
+
+        Если $M[\psi] = \mathrm{True}$, то $M[\varphi] -
+        \mathrm{False}$. Тогда по предположению индукции $\Gamma_M
+        \vdash \psi^{\mathrm{True}} = \psi$. Надо доказать, что
+        $\Gamma_M \vdash \varphi^{\mathrm{False}} = \n \n \psi$.
+        Достаточно доказать, что $\vdash (\psi \im \n \n \psi)$
+        (правило NN). Вывод для $\n \n \psi$ выглядит так:
+        \begin{enumerate}
+          \item $\dots$
+
+          \item $\psi$
+
+          \item $\psi \im \n \n \psi$
+
+          \item $\n \n \psi \qed$
+        \end{enumerate}
+
+        Если $M[\psi] = \mathrm{False}$, то $M[\varphi] =
+        \mathrm{True}$. По ПИ имеем $\Gamma_M \vdash \n \psi$, нужно
+        доказать $\Gamma_M \vdash \varphi \im \n \psi$.
+
+      \item $\varphi = (\psi_1 \im \psi_2)$. По предположению
+        индукции $\Gamma_M \vdash \psi_1^{M[\psi_1]}$ и $\Gamma_M
+        \vdash \psi_2^{M[\psi_2]}$. Надо разобрать 4 случая:
+        \begin{enumerate}
+          \item $M[\psi_1] = \mathrm{False}, M[\psi_2] =
+            \mathrm{False}$. Докажем $\n \psi_1, \n \psi_2 \vdash
+            (\psi_1 \im \psi_2)$ с помощью I2 ($\n p \im (p \im q)$).
+            Имеем вывод
+            \begin{enumerate}
+              \item \dots
+
+              \item $\n \psi_1$
+
+              \item $\n \psi_1 \im (\psi_1 \im \psi_2)$ (I2)
+
+              \item $\psi_1 \im \psi_2$ (MP)
+            \end{enumerate}
+
+          \item False, True. Докажем $\n \psi_1, \psi_2 \vdash
+            (\psi_1 \im \psi_2)$ (I2) или (I1). То же самое
+
+          \item True, False. Докажем $\psi_1, \n \psi_2 \vdash \n
+            (\psi_1 \im \psi_2)$ (NI). Получим вывод
+            \begin{enumerate}
+              \item \dots
+
+              \item $\psi_1$
+
+              \item \dots
+
+              \item $\n \psi_2$
+
+              \item $\psi_1 \im (\n \psi_2 \im \n(\psi_1 \im \psi_2))$ (NI)
+
+              \item $\n \psi_2 \im \n (\psi_1 \im \psi_2)$ (MP)
+
+              \item $\n (\psi_1 \im \psi_2)$ (MP)
+            \end{enumerate}
+
+          \item True, True. Докажем $\psi_1, \psi_2 \vdash (\psi_1
+            \im \psi_2)$. Соответствующий вывод:
+            \begin{enumerate}
+              \item \dots
+
+              \item $\psi_2$
+
+              \item $\psi_2 \im (\psi_1 \im \psi_2)$ (I1)
+
+              \item $\psi_1 \im \psi_2$ (MP)
+            \end{enumerate}
+        \end{enumerate}
+    \end{itemize}
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  Если $\Gamma \un \set{p} \vdash \varphi$ и $\Gamma \un \set{\n p}
+  \vdash \varphi$, то $\Gamma \vdash \varphi$.
+  \begin{proof}
+    Следует из аксиомы (R).
+
+    По теореме о дедукции из первого утверждения $\Gamma \vdash p \im
+    \varphi$, а из второго $\Gamma \vdash \n p \im \varphi$. Получим вывод:
+    \begin{enumerate}
+      \item $(p \im \varphi) \im ((\n p \im \varphi) \im \varphi)$
+
+      \item $(\n p \im \varphi) \im \varphi$
+
+      \item $\varphi$
+    \end{enumerate}
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}[О полноте]
+  Если $\varphi$ --- тавтология, то $\vdash \varphi$, а значит и
+  $\vdash_{\mathcal{H}} \varphi$.
+  \begin{proof}
+    $\forall$ модели $M$, содержащей все переменные из $\varphi$
+    имеем $M[\varphi] = \mathrm{True}$, Тогда по лемме
+    \[
+      \Gamma_M \vdash \varphi\ \text{для любой модели $M$.}
+    \]
+    Пусть $p$ --- некоторая переменная из $\varphi$, тогда все модели
+    разобьются на пары, т.что в паре оценка отличается только в
+    переменной $p$. Пусть $M_1$ и $M_2$ --- две такие модели. Пусть
+    \[
+      \Gamma_{M_1} = \Gamma' \un \set{p}\ \text{и}\ \Gamma_{M_2} -
+      \Gamma' \un \set{\n p}
+    \]
+    По предыдущей лемме получим $\Gamma' \vdash \varphi$. Проделав
+    так с каждой парой моделей мы уменьшим на 1 количество посылок.
+    Действуя так мы сможем избавиться от всех посылок.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[О сильной полноте]
+  Пусть $\Gamma$ --- конечное множество формул и $\varphi$ --- формула, тогда
+  \[
+    \Gamma \models \varphi \iff \Gamma \vdash \varphi
+  \]
+  \begin{proof}
+    $\impliedby$ было в теореме о корректности.
+
+    $\implies$ Пусть $\Gamma = \set{\psi_1, \dots, \psi_n}$. По
+    теореме о дедукции (применив $n$ раз)
+    \[
+      \Gamma \vdash \iff \vdash (\psi_1 \im (\dots (\psi_n \im \varphi)\dots))
+    \]
+    Осталось показать, что
+    \[
+      \Gamma \models \varphi \iff (\psi_1 \im (\dots(\psi_n \im
+      \varphi)\dots))\ \text{--- тавтология}
+    \]
+    В правую сторону импликация известна, осталось доказать в левую.
+    Пусть это не тавтология, тогда $\exists$ модель, её опровергащая.
+    Тогда надо чтобы $\psi_i$ были истинными, а $\varphi$ --- ложной.
+    Тогда $\Gamma \not\models \varphi$.
+  \end{proof}
+
+  Переформулируем это утверждение в симметричной форме.
+
+  $\Gamma \models \varphi$ эквивалентно тому, что $\Gamma \un \set{\n
+  \varphi}$ не имеет модели.
+
+  $\Gamma \vdash \varphi$ эквивалентно тому, что $\Gamma \un
+  \set{\n \varphi}$ противоречиво:
+  \[
+    \Gamma \un \set{\n \varphi} \vdash \n \varphi, \Gamma \un \set{\n
+    \varphi} \vdash \varphi \implies \Gamma \un \set{\n
+    \varphi}\ \text{--- противоречиво}
+  \]
+  В другую сторону знаем, что $\Gamma \un \set{\n \varphi} \vdash \n
+  (p \im p)$. Тогда:
+  \begin{enumerate}
+    \item $\Gamma \vdash \n \varphi \im \n (p \im p)$
+
+    \item $(\n \varphi \im \n (p \im p)) \im ((p \im p) \im \varphi)$ (N)
+
+    \item $(p \im p) \im \varphi$
+
+    \item $p \im p$ (I0)
+
+    \item $\varphi$
+  \end{enumerate}
+
+  Тогда изначальное утверждение эквивалентно следующему:
+  \begin{center}
+    $\Gamma$ не имеет модели $\iff$ $\Gamma$ противоречиво
+  \end{center}
+  или
+  \begin{center}
+    $\Gamma$ выполнимо $\iff$ $\Gamma$ непротиворечиво
+  \end{center}
+\end{theorem}
+
+\begin{theorem}[О компактности (синтаксическая)]
+  Бесконечное множество формул непротиворечиво тогда и только тогда,
+  когда любое его конечное подмножество непротиворечиво.
+  \begin{proof}
+    Пусть $\Gamma$ противоречиво, тогда можно вывести $\Gamma \vdash
+    \n (p \im p)$, т.е. имеем вывод
+    \begin{enumerate}
+      \item \dots
+
+      \item $\n (p \im p)$,
+    \end{enumerate}
+    он использует конечное число формул из $\Gamma$. Пусть $\Gamma_0$
+    --- все формулы, используемые в доказательстве. Тогда $\Gamma_0
+    \vdash \n (p \im p)$.
+
+    В другую сторону, если существует $|\Gamma_0| < \infty, \Gamma_0
+    \subseteq \Gamma$ и $\Gamma_0$ противоречива, то $\Gamma$ также
+    противоречива.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[О компактности (семантическая)]
+  Бесконечное подмножество формул $\Gamma$ выполнимо (имеет модель)
+  тогда и только тогда, когда любое его конечное подмножество выполнимо.
+\end{theorem}
+\pagebreak
+
+\section{Лекция 8}
+
+\begin{theorem}[О полноте в сильной форме]
+  Произвольное множество формул $\Gamma$ выполнимо тогда и только
+  тогда, когда $\Gamma$ непротиворечиво.
+
+  \begin{proof}
+    \begin{definition}
+      Множество формул $\Gamma$ называется \textit{полным}, если оно
+      непротиворечиво и <<максимально>>, т.е. для любой формулы $\varphi
+      \nin \Gamma$ верно, что $\Gamma \un \set{\varphi}$ --- противоречиво.
+    \end{definition}
+
+    \begin{lemma}[Линденбаум]
+      Любое непротиворечивое множество можно дополнить до полного.
+      \begin{proof}
+        Перечислим все формулы $\varphi_0, \varphi_1, \dots$
+
+        Будем строить $\Gamma_n$ по индукции. $\Gamma_0 = \Gamma$,
+        \[
+          \Gamma_{n+1} =
+          \begin{cases}
+            \Gamma_n \un \set{\varphi_n},\ \text{если $\Gamma_n \un
+            \set{\varphi_n}$ --- непротиворечиво}\\
+            \Gamma_n,\ \text{иначе}
+          \end{cases}
+        \]
+        \[
+          \Delta = \bigcup_{n \in \mathbb{N}} \Gamma_n
+        \]
+        Проверим, что $\Delta$ непротиворечиво и максимально.
+        \begin{itemize}
+          \item Непротиворечивость
+
+            Если $\Delta$ противоречиво, то $\Delta \vdash \n (p \im p)$.
+            Такой вывод использует конечное число формул, а значит
+            $\exists n \colon \Gamma_n \vdash \n (p \im p) \implies
+            \Gamma_n$ --- противоречиво, что противоречит построению $\Gamma_n$
+
+          \item Максимальность
+
+            Пусть оно не максимально, т.е. $\exists \varphi \nin \Delta
+            \colon \Delta \un \set{\varphi}$ --- непротиворечиво. Тогда
+            $\exists n \colon \varphi = \varphi_n$, но тогда
+            $\Gamma_{n+1} = \Gamma_n \un \set{\varphi_n}$
+            \begin{enumerate}
+              \item $\Gamma_n \un \set{\varphi_n}$ --- противоречиво,
+                тогда $\Gamma_n \un \set{\varphi_n} \vdash \n (p \im p)$,
+                откуда следует $\Delta \vdash \n (p \im p)$, а значит
+                $\Delta$ противоречива, противоречие
+
+              \item $\Gamma_n \un \set{\varphi_n}$ --- непротиворечиво,
+                тогда $\varphi_n = \varphi \in \Delta$, противоречие
+            \end{enumerate}
+        \end{itemize}
+      \end{proof}
+    \end{lemma}
+
+    \begin{lemma}[Свойства полных множеств]
+      Пусть $\Delta$ --- полное множество формул, тогда:
+      \begin{itemize}
+        \item $\n \psi \in \Delta \iff \psi \nin \Delta$
+
+        \item $(\psi_1 \im \psi_2) \in \Delta \iff (\psi_1 \nin \Delta
+          \la \psi_2 \in \Delta)$
+      \end{itemize}
+      \begin{proof}
+        \begin{itemize}
+          \item Пусть оба $\in \Delta$, тогда получаем $\Delta \vdash
+            \psi$ и $\Delta \vdash \n \psi$ и $\Delta$ противоречиво
+
+            Пусть оба $\nin \Delta$. Тогда по максимальности добавление
+            $\psi$ и $\n \psi$ приводит к противоречивости:
+            \[
+              \begin{cases}
+                \Delta \un \set{\psi}\ \text{--- противоречиво} \implies
+                \Delta \vdash \n \psi\\
+                \Delta \un \set{\n \psi}\ \text{--- противоречиво}
+                \implies \Delta \vdash \n\n \psi\\
+              \end{cases}
+            \]
+
+          \item Имея первый пункт, достаточно исключить следующие 3 случая:
+            \begin{itemize}
+              \item $(\psi_1 \im \psi_2) \in \Delta$ и $\psi_1 \in
+                \Delta$ и $\n \psi_2 \in \Delta$, тогда $\Delta \vdash
+                (\psi_1 \im \psi_2)$ и $\Delta \vdash \psi_1$. По MP
+                получаем $\Delta \vdash \psi_2$, но $\Delta \vdash \n
+                \psi_2$, откуда $\Delta$ противоречиво.
+
+              \item $\n(\psi_1 \im \psi_2) \in \Delta$ и $\n \psi_1 \in
+                \Delta$. Имеем $\n \psi_1 \im (\psi_1 \im \psi_2)$, по MP
+                получим $\Delta \vdash \psi_1 \im \psi_2$, и имея $\Delta
+                \vdash \n (\psi_1 \im \psi_2)$ получаем противоречие.
+
+              \item $\n(\psi_1 \im \psi_2) \in \Delta$ и $\psi_2 \in
+                \Delta$ аналогично предыдущему пункту.
+            \end{itemize}
+        \end{itemize}
+      \end{proof}
+    \end{lemma}
+
+    \begin{definition}
+      Пусть $\Delta$ --- полное множество формул. Определим модель
+      $M_\Delta$ следующим образом:
+      \[
+        M_\Delta[p] =
+        \begin{cases}
+          \mathrm{True},\ p \in \Delta\\
+          \mathrm{False},\ p \nin \Delta\\
+        \end{cases}
+      \]
+    \end{definition}
+
+    \begin{lemma}
+      Для произвольной формулы $\varphi$ верно, что
+      \[
+        M_\Delta[\varphi] = \mathrm{True} \iff \varphi \in \Delta
+      \]
+      \begin{proof}
+        Докажем индукцией по $\varphi$.
+
+        \textbf{База}: верна по определению $M_\Delta[\varphi]$
+
+        \textbf{Шаг}:
+        \begin{itemize}
+          \item $\varphi = \n \psi$
+
+            $M_\Delta[\varphi] =
+            \begin{cases}
+              \mathrm{True},\ M_\Delta[\psi] = \mathrm{False} \iff \psi
+              \nin \Delta \iff \varphi = \n \psi \in \Delta\\
+              \mathrm{False},\ M_\Delta[\psi] = \mathrm{True} \iff \psi
+              \in \Delta \iff \varphi = \n \psi \nin \Delta
+            \end{cases}$ из предыдущей леммы.
+
+          \item $\varphi = (\psi_1 \im \psi_2)$.
+
+            $(\psi_1 \im \psi_2) \in \Delta \iff \psi_1 \nin \Delta \lor
+            \psi_2 \in \Delta \iff M_\Delta[\psi_1] = \mathrm{False} \lor
+            M_\Delta[\psi_2] = \mathrm{True}$
+        \end{itemize}
+      \end{proof}
+    \end{lemma}
+
+    Докажем наконец изначальную теорему (да, это было доказательство
+    теоремы на полторы страницы):
+
+    $\implies$ Если $\Gamma$ выполнимо, то $\exists M$, оценивающая все
+    переменные, в которой все формулы из $\Gamma$ истинны.
+
+    Пусть $\Gamma$ противоречиво, тогда $\Gamma \vdash \n (p \im p)$,
+    но в силу того, что все правила корректны, т.е. сохраняют
+    истинность, то в модели $M$ должна быть истинная формула $\n(p \im
+    p)$, что невозможно.
+
+    $\impliedby$ Теперь, пусть $\Gamma$ непротиворечиво, тогда его
+    можно расширить по лемме Линдебаума до полного множества $\Delta$.
+    Тогда в модели $M_\Delta$ будут истинны все формулы из $\Gamma$
+    благодаря предыдущей лемме.
+  \end{proof}
+\end{theorem}
+
+\subsection{Доказательства аксиом}
+
+\begin{itemize}
+  \item (I2):
+    \[
+      \n p \im (p \im q)
+    \]
+    \begin{proof}
+      \begin{enumerate}
+        \item $\n p \im (\n q \im \n p)$ (I1)
+
+        \item $(\n q \im \n p) \im (p \im q)$ (N)
+
+        \item $\n p \im(p \im q)$ (силлогизм)
+      \end{enumerate}
+    \end{proof}
+
+  \item Вспомогательная аксиома
+    \[
+      \vdash \n\n p \im p
+    \]
+    \begin{proof}
+      По лемме о дедукции доказательство аксиомы эквивалентно
+      доказательству $\n\n p \vdash p$. Хотим вывести $\vdash \n\n p
+      \im (\n\n p \im p)$
+      \begin{enumerate}
+        \item $\n\n p \im (\n\n\n\n p \im \n\n p)$ (I1)
+
+        \item $\n\n p \vdash \n\n\n\n p \im \n\n p$
+
+        \item $(\n\n\n\n p \im \n\n p) \im (\n p \im \n\n\n p)$
+
+        \item $\n\n p \vdash \n p \im \n\n\n p$
+
+        \item $(\n p \im \n\n\n p) \im (\n\n p \im p)$
+
+        \item $\n\n p \vdash \n\n p \im p$
+
+        \item $\n\n p \vdash p$
+      \end{enumerate}
+    \end{proof}
+
+  \item (NN):
+    \[
+      p \im \n\n p
+    \]
+    \begin{proof}
+      \begin{enumerate}
+        \item $(\n\n\n p \im \n p) \im (p \im \n\n p)$ (N)
+
+        \item $\vdash \n\n\n p \im \n p$ (предыдущий пункт)
+
+        \item $\vdash p \im \n\n p$ (MP)
+      \end{enumerate}
+    \end{proof}
+
+  \item
+    \[
+      \vdash (p \im q) \im (\n q \im \n p)
+    \]
+    \begin{proof}
+      По теореме о дедукции она выводима тогда и только тогда, когда
+      выводима $(p \im q) \vdash \n q \im \n p$. Докажем вспомогательную лемму
+      \begin{lemma}
+        \[
+          \vdash (p \im q) \im (\n\n p \im \n\n q)
+        \]
+        \begin{proof}
+          Вывод эквивалентен $p \im q \vdash \n\n p \im \n\n q \iff p
+          \im q, \n\n p \vdash \n\n q$.
+
+          По одному из прошлых пунктов знаем $\vdash \n\n p \im p$,
+          по силлогизму получаем $\vdash \n\n p \im q$, $\vdash q \im
+          \n\n q$, $\vdash \n\n p \im \n\n q$.
+        \end{proof}
+      \end{lemma}
+      Имеем $(p \im q) \vdash \n\n p \im \n\n q$, откуда получаем $p
+      \im q \vdash \n q \im \n p$
+    \end{proof}
+
+  \item (NI):
+    \[
+      \vdash (p \im (\n q \im \n(p \im q)))
+    \]
+    \begin{proof}
+      Достаточно вывести $p \vdash \n q \im \n (p \im q)$. Если
+      сможем доказать $p \vdash (p \im q) \im q$, то получим
+      требуемое. По теореме о дедукции это эквивалентно $p, p \im q
+      \vdash q$, по MP это верно.
+    \end{proof}
+\end{itemize}
+
 \end{document}
