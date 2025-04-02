@@ -1008,11 +1008,23 @@
 
 \begin{lemma}
   Если $\frac{\Gamma}{\varphi}$ --- допустимое в $\mathcal{R}$
-  правило, а $\frac{\Delta}{\varphi}$ --- частный случай правила
-  $\frac{\Gamma}{\psi}$, то
+  правило, а $\frac{\Delta}{\psi}$ --- частный случай правила
+  $\frac{\Gamma}{\varphi}$, то
   \begin{displaymath}
     \Delta \vdash_{\mathcal{R}} \psi
   \end{displaymath}
+  \begin{proof}
+    Пусть есть вывод $\Gamma \vdash_{\mathcal{R}} \varphi$:
+    \begin{enumerate}
+      \item $\xi_1$
+
+      \item $\dots$
+
+      \item $\xi_n = \varphi$
+    \end{enumerate}
+    Существует подстановка, переводящая $\Gamma$ в $\Delta$ и
+    $\varphi$ в $\psi$. Сделаем такую подстановку во все формулы вывода.
+  \end{proof}
 \end{lemma}
 
 \begin{theorem}[The Lemma Theorem]
@@ -1020,7 +1032,44 @@
   $\mathcal{R} \un \lambda$ и при этом $\lambda$ допустимо в
   $\mathcal{R}$, то и $\rho$ допустимо в $\mathcal{R}$.
   \begin{proof}
-    TODO
+    Пусть $\ds\lambda = \frac{\Delta}{\psi}$, $\ds\rho =
+    \frac{\Gamma}{\varphi}$, а также два вывода:
+    \begin{itemize}
+      \item $\Gamma \vdash_{\mathcal{R} \un \set{\lambda}} \varphi$:
+        \begin{enumerate}
+          \item $\xi_1$
+
+          \item $\dots$
+
+          \item $\xi_n = \varphi$
+        \end{enumerate}
+
+      \item $\Delta \vdash_{\mathcal{R}} \psi$:
+        \begin{enumerate}
+          \item $\eta_1$
+
+          \item $\dots$
+
+          \item $\eta_m = \psi$
+        \end{enumerate}
+    \end{itemize}
+    Если в выводе $\xi_i$ получено по правилу из $\mathcal{R}$, то
+    всё хорошо. Если же $\xi_i$ получено с помощью $\lambda$, то
+    имеем правило вывода $\ds\frac{\xi_{j_1}, \dots,
+    \xi_{j_l}}{\xi_i}$ для $\xi_{j_1}, \dots, \xi_{j_l} \in
+    \set{\xi_1, \dots, \xi_{i-1}}$, частный случай $\lambda$. Тогда
+    по предыдущей лемме можем этот вывод заменить на вывод
+    $\xi_{j_1}, \dots, \xi_{j_l} \vdash_{\mathcal{R}} \xi_i$:
+    \begin{enumerate}
+      \item $\eta'_1$
+
+      \item $\dots$
+
+      \item $\eta'_k = \xi_i$
+    \end{enumerate}
+    и вставить его в доказательство вместо $\xi_i$. Делаем такую
+    подстановку во все такие строки вывода и получаем новый вывод
+    $\Gamma \vdash_{\mathcal{R}} \varphi$.
   \end{proof}
 \end{theorem}
 
@@ -1033,8 +1082,8 @@
 \end{displaymath}
 
 \begin{theorem}[Теорема о дедукции]
-  Если $\mathcal{R}$ --- множество правил вывода, содержащее $(MP)$,
-  $(I1)$ и $(D)$, и все остальные правила являются аксиомами (пустое
+  Если $\mathcal{R}$ --- множество правил вывода, содержащее $MP$,
+  $I1$ и $D$, и все остальные правила являются аксиомами (пустое
   множество посылок), то для любых формул $\varphi$, $\psi$ и
   множества формул $\Gamma$ верно
   \begin{displaymath}
@@ -1045,15 +1094,28 @@
     В одну сторону можно усилить утверждение
 
     \begin{lemma}
-      Если $\mathcal{R}$ --- множество правил вывода, содержащее $(MP)$,
+      Если $\mathcal{R}$ --- множество правил вывода, содержащее $MP$,
       то для любых формул $\varphi$, $\psi$ и множества формул $\Gamma$ верно
       \[
         \Gamma \vdash_{\mathcal{R}} (\varphi \im \psi) \implies \Gamma
         \un \set{\varphi} \vdash_{\mathcal{R}} \psi
       \]
       \begin{proof}
-        Пусть есть набор формул $\Gamma$, $\varphi \im \psi$, $\varphi$.
-        Тогда по modus ponens $\psi$.
+        Имеем изначальный вывод $\Gamma \vdash_{\mathcal{R}} (\varphi \im \psi)$
+        \begin{enumerate}
+          \item $\dots$
+
+          \item $\varphi \im \psi$
+        \end{enumerate}
+        Тогда получаем следующий вывод $\Gamma \un \set{\varphi}
+        \vdash_{\mathcal{R}} \psi$:
+        \begin{enumerate}
+          \item $\dots$
+
+          \item $\varphi \im \psi$
+
+          \item $\psi$ (MP)
+        \end{enumerate}
       \end{proof}
     \end{lemma}
 
@@ -1061,8 +1123,15 @@
     \vdash_{\mathcal{R}} \psi \implies \Gamma \vdash_{\mathcal{R}}
     (\varphi \im \psi)$.
 
-    Будем доказывать индукцией по длине вывода. Пусть $\xi_1, \xi_2,
-    \dots, \xi_n = \psi$ --- вывод из $\Gamma \un \set{\varphi}$.
+    Будем доказывать индукцией по длине вывода. Пусть имеем вывод
+    $\Gamma \un \set{\varphi} \vdash_{\mathcal{R}} \psi$:
+    \begin{enumerate}
+      \item $\xi_1$
+
+      \item $\dots$
+
+      \item $\xi_n = \psi$
+    \end{enumerate}
     Будем доказывать, что для любого $i \leqslant n$ верно
     \[
       \Gamma \vdash_{\mathcal{R}} (\varphi \im \xi_i)
@@ -1072,33 +1141,44 @@
       \item Возьмём $\xi_i = \varphi$. Докажем, что $\Gamma
         \vdash_{\mathcal{R}} (\varphi \im \varphi)$. Но уже
         доказывали (в ДЗ), что из пустого множества посылок доказуемо
-        выражение $p \im p$, а $\varphi \im \varphi$ --- его частный вид.
+        выражение $p \im p$, а $\varphi \im \varphi$ --- его частный случай.
 
       \item Пусть теперь $\xi_i \in \Gamma$. Тогда нужно построить
         вывод $\Gamma \vdash_{\mathcal{R}} (\varphi \im \xi_i)$. Тогда
         \begin{enumerate}
           \item $\xi_i$
 
-          \item $\xi_i \im (\varphi \im \xi_i)$ $(I0)$
+          \item $\xi_i \im (\varphi \im \xi_i)$ (I1)
 
-          \item $\varphi \im \xi_i$ $(MP)$
+          \item $\varphi \im \xi_i$ (MP)
         \end{enumerate}
 
-      \item $\xi_i$ получена по правилу $(I1)$ или $(D)$ (с пустым
-        множеством посылок). То же самое вроде.
+      \item $\xi_i$ получена по правилу I1 или D (с пустым
+        множеством посылок). Вывод будет тот же самый, но первой
+        строкой вывода $\xi_i$ записан не потому что $\xi_i \in
+        \Gamma$, а потому что $\xi_i$ выводится из аксиом I1 и D.
 
-      \item $\xi_i$ получена по правилу $(MP)$ из $\xi_j$ и $\xi_k$.
+      \item $\xi_i$ получена по правилу MP из $\xi_j$ и $\xi_k$.
         Тогда $\xi_k$ имеет вид $\xi_j \im \xi_i$. По предположению
         индукции $\Gamma \vdash_{\mathcal{R}} (\varphi \im \xi_j)$ и
         $\Gamma \vdash_{\mathcal{R}} \underbrace{(\varphi \im (\xi_j
-        \im \xi_i))}_{\xi_k}$. Тогда вывод будет иметь вид $\dots
-        \varphi \im \xi_j \dots \varphi \im (\xi_j \im \xi_i)$.
+        \im \xi_i))}_{\xi_k}$. Тогда получаем следующий вывод:
+        \begin{enumerate}
+          \item $\dots$
 
-        Формула $(\varphi \im (\xi_j \im \xi_i)) \im ((\varphi \im
-        \xi_j) \im (\varphi \im \xi_i))$ есть частный случай $(D)$.
-        Тогда, применив modus ponens к нему и последнему правилу
-        предыдущего абзаца получаем $((\varphi \im \xi_j) \im
-        (\varphi \im \xi_i))$. Получаем $(\varphi \im \xi_i)\ (MP)$.
+          \item $\varphi \im \xi_j$
+
+          \item $\dots$
+
+          \item $\varphi \im (\xi_j \im \xi_i)$
+
+          \item $(\varphi \im (\xi_j \im \xi_i)) \im ((\varphi \im
+            \xi_j) \im (\varphi \im \xi_i))$ (D)
+
+          \item $((\varphi \im \xi_j) \im (\varphi \im \xi_i))$ (MP)
+
+          \item $(\varphi \im \xi_i)$ (MP)
+        \end{enumerate}
     \end{itemize}
   \end{proof}
 \end{theorem}
