@@ -696,13 +696,17 @@
 
       \item $g(p) \eq 0$, тогда получаем $\n 0 = 1$
     \end{enumerate}
-    Рассмотрим $x_1 \la x_2 \oplus x_2 \la x_3 \oplus x_1 \la x_3$.
-    Тогда в поле $\mathbb{F}_2$ получаем:
+    То есть имеем константы 0 и 1.
+
+    Рассмотрим $V(x_1, x_2, x_3) = x_1 \la x_2 \oplus x_2 \la x_3
+    \oplus x_1 \la x_3$. Тогда в поле $\mathbb{F}_2$ получаем:
     \begin{align*}
       (x_1 + 1)(x_2 + 1) + (x_2 + 1)(x_3 + 1) + (x_1 + 1)(x_3 + 1) &=
       \dots =\\&=
       x_1x_2 + x_2x_3 + x_1x_3 + 1 =\\&= \overline{x_1x_2 + x_2x_3 + x_1x_3}
     \end{align*}
+    Т.е. $V \in S$. Заметим, что $V(x_1, x_2, 0) = x_1 \land x_2$, а
+    также, что $\n \in S$. В итоге получаем полную систему $\set{\n, V, 0}$.
   \end{proof}
 \end{lemma}
 
