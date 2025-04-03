@@ -1214,21 +1214,42 @@ $\mathcal{R}$), если
 \textit{непротиворечивым} (\textit{consistent}).
 
 \begin{proof}
-  $5 \implies 1$, $1 \implies 2$: очевидно.
+  $1 \implies 2$: $\n (p \im p)$ само по себе есть отрицание аксиомы I0.
 
   $2 \implies 3$:
-
   Пусть есть $\alpha$ --- аксиомы из $\mathcal{R}$ и $\varphi =
   \alpha$, тогда $\Gamma \vdash_{\mathcal{R}} \alpha$. С другой
   стороны, $\Gamma \vdash_{\mathcal{R}} \n \alpha$ из предположения.
 
   $3 \implies 4$:
+  Имеем вывод $\Gamma \vdash_{\mathcal{R}} \varphi$ и $\Gamma
+  \vdash_{\mathcal{R}} \n \varphi$. Объединим их в один вывод:
+  \begin{enumerate}
+    \item $\dots$
 
-  Имеем вывод вида $\dots \varphi \dots \n \varphi$. Тогда пусть
-  $\psi$ --- любая формула, тогда можем записать $(\n \varphi
-  \im (\varphi \im \psi))\ (I2),\ \varphi \im \psi (MP),\ \psi\ (MP)$
+    \item $\varphi$
 
-  $4 \implies 5$: опять очевидно.
+    \item $\dots$
+
+    \item $\n \varphi$
+  \end{enumerate}
+
+  Тогда дополним его:
+  \begin{enumerate}
+      \setcounter{enumi}{4}
+
+    \item $\n \varphi \im (\varphi \im \psi)$ (I2)
+
+    \item $\varphi \im \psi$ (MP)
+
+    \item $\psi$ (MP)
+  \end{enumerate}
+
+  $4 \implies 5$: можно вывести любую формулу, значит можно вывести и
+  отрицания аксиом.
+
+  $5 \implies 1$: отрицания всех аксиом доказуемы, значит доказуемо и
+  отрицание I0.
 \end{proof}
 
 \begin{theorem}
@@ -1247,13 +1268,18 @@ $\mathcal{R}$), если
 
     Тогда имеем вывод
     \begin{enumerate}
+      \item $\dots$
+
       \item $\n \varphi \im \n (p \im p)$
 
-      \item $(\n \varphi \im (p \im p)) \im ((p \im p) \im \varphi)$ $(N)$
+      \item $(\n \varphi \im \n (p \im p)) \im ((p \im p) \im \varphi)$ (N)
 
-      \item $(p \im p) \im \varphi$ $(MP)$
+      \item $(p \im p) \im \varphi$ (MP)
 
-      \item $p \im p$
+      \item $\dots$ (вывод I0 с помощью $\set{\mathrm{MP},
+        \mathrm{I1}, \mathrm{D}, \mathrm{N}}$)
+
+      \item $p \im p$ (I0)
 
       \item $\varphi$
     \end{enumerate}
@@ -1267,10 +1293,12 @@ $\mathcal{R}$), если
     \vdash_{\mathcal{R}} (\n p \im (p \im q))
   \end{displaymath}
   \begin{proof}
-    Хотим доказать $\n p \vdash_{\mathcal{R}} (p \im q)$.
-
-    Построим вывод. Гипотеза --- $\n p$, тогда
+    По теореме о дедукции вместо изначального утверждения можем
+    доказать $\n p \vdash_{\mathcal{R}} (p \im q)$. Построим вывод.
+    Гипотеза --- $\n p$, тогда
     \begin{enumerate}
+      \item $\n p$
+
       \item $\n p \im (\n q \im \n p)$ (I1)
 
       \item $\n q \im \n p$ (MP)
