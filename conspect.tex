@@ -168,9 +168,9 @@
 
 \begin{definition}
   \textit{Алфавит} $\Sigma = \set{(, ), \land, \lor, \n, \im} \un
-  \mathrm{Prop}$, где $\mathrm{Prop}$ --- множество пропозициональных
-  переменных. В курсе $\mathrm{Prop} = \set{p, \dots, z, p_1, \dots,
-  z_1, \dots}$.
+  \mathrm{Prop} \un \set{\mathrm{True}, \mathrm{False}}$, где
+  $\mathrm{Prop}$ --- множество пропозициональных переменных. В курсе
+  $\mathrm{Prop} = \set{p, \dots, z, p_1, \dots, z_1, \dots}$.
 \end{definition}
 
 \begin{definition}
@@ -911,7 +911,7 @@
 
 Таким образом, $\Gamma \vdash_{\mathcal{R}} p \im q$
 
-\begin{theorem}
+\begin{theorem}[Теорема о корректности]
   Если все правила в $\mathcal{R}$ корректны и $\Gamma
   \vdash_{\mathcal{R}} \varphi$, то $\Gamma \models \varphi$.
   \begin{proof}
@@ -1316,13 +1316,8 @@ $\mathcal{R}$), если
 
 \subsection{Основное множество правил}
 
-TODO: про полноту че то
-
-Modus Ponens (MP):
-\[
-  \frac{p, p \im q}{q}
-\]
 \begin{align*}
+  (MP)\ &\frac{p, p \im q}{q}\\
   (I0)\ &(p \im p)\\
   (I1)\ &(q \im (p \im q))\\
   (D)\ &((p \im (q \im r)) \im ((p \im q) \im (p \im r)))\\
@@ -1361,6 +1356,9 @@ Modus Ponens (MP):
   \]
 \end{definition}
 
+Например, если $M = \set{p\colon \mathrm{True}, q\colon
+\mathrm{False}, x\colon \mathrm{False}}$, то $\Gamma_M = \set{p, \n q, \n x}$.
+
 \begin{lemma}
   Пусть $\varphi$ --- формула, и $M$ оценивает все формулы из
   $\varphi$ и $M[\varphi]$ --- истинностное значение формулы
@@ -1389,14 +1387,19 @@ Modus Ponens (MP):
 
           \item $\psi$
 
-          \item $\psi \im \n \n \psi$
+          \item $\psi \im \n \n \psi$ (NN)
 
-          \item $\n \n \psi \qed$
+          \item $\n \n \psi$
         \end{enumerate}
 
         Если $M[\psi] = \mathrm{False}$, то $M[\varphi] =
         \mathrm{True}$. По ПИ имеем $\Gamma_M \vdash \n \psi$, нужно
-        доказать $\Gamma_M \vdash \varphi \im \n \psi$.
+        доказать $\Gamma_M \vdash \varphi = \n \psi$. Вывод будет тривиальным;
+        \begin{enumerate}
+          \item $\n \psi$
+
+          \item $\varphi$
+        \end{enumerate}
 
       \item $\varphi = (\psi_1 \im \psi_2)$. По предположению
         индукции $\Gamma_M \vdash \psi_1^{M[\psi_1]}$ и $\Gamma_M
@@ -1417,7 +1420,8 @@ Modus Ponens (MP):
             \end{enumerate}
 
           \item False, True. Докажем $\n \psi_1, \psi_2 \vdash
-            (\psi_1 \im \psi_2)$ (I2) или (I1). То же самое
+            (\psi_1 \im \psi_2)$ (I2) или (I1). То же самое, т.к.
+            $\psi_2$ в прошлом выводе не участвовал.
 
           \item True, False. Докажем $\psi_1, \n \psi_2 \vdash \n
             (\psi_1 \im \psi_2)$ (NI). Получим вывод
@@ -1462,16 +1466,24 @@ Modus Ponens (MP):
     По теореме о дедукции из первого утверждения $\Gamma \vdash p \im
     \varphi$, а из второго $\Gamma \vdash \n p \im \varphi$. Получим вывод:
     \begin{enumerate}
-      \item $(p \im \varphi) \im ((\n p \im \varphi) \im \varphi)$
+      \item $\dots$
 
-      \item $(\n p \im \varphi) \im \varphi$
+      \item $p \im \varphi$
+
+      \item $\dots$
+
+      \item $\n p \im \varphi$
+
+      \item $(p \im \varphi) \im ((\n p \im \varphi) \im \varphi)$ (R)
+
+      \item $(\n p \im \varphi) \im \varphi$ (MP)
 
       \item $\varphi$
     \end{enumerate}
   \end{proof}
 \end{lemma}
 
-\begin{theorem}[О полноте]
+\begin{theorem}[О полноте в слабой форме]
   Если $\varphi$ --- тавтология, то $\vdash \varphi$, а значит и
   $\vdash_{\mathcal{H}} \varphi$.
   \begin{proof}
@@ -1484,7 +1496,7 @@ Modus Ponens (MP):
     разобьются на пары, т.что в паре оценка отличается только в
     переменной $p$. Пусть $M_1$ и $M_2$ --- две такие модели. Пусть
     \[
-      \Gamma_{M_1} = \Gamma' \un \set{p}\ \text{и}\ \Gamma_{M_2} -
+      \Gamma_{M_1} = \Gamma' \un \set{p}\ \text{и}\ \Gamma_{M_2} =
       \Gamma' \un \set{\n p}
     \]
     По предыдущей лемме получим $\Gamma' \vdash \varphi$. Проделав
@@ -1493,7 +1505,7 @@ Modus Ponens (MP):
   \end{proof}
 \end{theorem}
 
-\begin{theorem}[О сильной полноте]
+\begin{theorem}[О полноте в сильной форме]
   Пусть $\Gamma$ --- конечное множество формул и $\varphi$ --- формула, тогда
   \[
     \Gamma \models \varphi \iff \Gamma \vdash \varphi
@@ -1504,7 +1516,8 @@ Modus Ponens (MP):
     $\implies$ Пусть $\Gamma = \set{\psi_1, \dots, \psi_n}$. По
     теореме о дедукции (применив $n$ раз)
     \[
-      \Gamma \vdash \iff \vdash (\psi_1 \im (\dots (\psi_n \im \varphi)\dots))
+      \Gamma \vdash \varphi \iff \vdash (\psi_1 \im (\dots (\psi_n
+      \im \varphi)\dots))
     \]
     Осталось показать, что
     \[
@@ -1514,7 +1527,7 @@ Modus Ponens (MP):
     В правую сторону импликация известна, осталось доказать в левую.
     Пусть это не тавтология, тогда $\exists$ модель, её опровергащая.
     Тогда надо чтобы $\psi_i$ были истинными, а $\varphi$ --- ложной.
-    Тогда $\Gamma \not\models \varphi$.
+    Но тогда $\Gamma \not\models \varphi$.
   \end{proof}
 
   Переформулируем это утверждение в симметричной форме.
@@ -1644,7 +1657,7 @@ Modus Ponens (MP):
         \item $\n \psi \in \Delta \iff \psi \nin \Delta$
 
         \item $(\psi_1 \im \psi_2) \in \Delta \iff (\psi_1 \nin \Delta
-          \la \psi_2 \in \Delta)$
+          \lv \psi_2 \in \Delta)$
       \end{itemize}
       \begin{proof}
         \begin{itemize}
@@ -1671,12 +1684,21 @@ Modus Ponens (MP):
                 \psi_2$, откуда $\Delta$ противоречиво.
 
               \item $\n(\psi_1 \im \psi_2) \in \Delta$ и $\n \psi_1 \in
-                \Delta$. Имеем $\n \psi_1 \im (\psi_1 \im \psi_2)$, по MP
-                получим $\Delta \vdash \psi_1 \im \psi_2$, и имея $\Delta
-                \vdash \n (\psi_1 \im \psi_2)$ получаем противоречие.
+                \Delta$ (равносильно $\psi_1 \nin \Delta$ по первому
+                пункту). Имеем $\n \psi_1 \im (\psi_1 \im \psi_2)$ по I2;
+                по MP получим $\Delta \vdash \psi_1 \im \psi_2$, и
+                имея $\Delta \vdash \n (\psi_1 \im \psi_2)$ получаем
+                противоречие.
 
               \item $\n(\psi_1 \im \psi_2) \in \Delta$ и $\psi_2 \in
-                \Delta$ аналогично предыдущему пункту.
+                \Delta$. Вывод аналогичен предыдущему пункту:
+                \begin{enumerate}
+                  \item $\psi_2 \im (\psi_1 \im \psi_2)$ (I1)
+
+                  \item $\psi_1 \im \psi_2$ (MP)
+
+                  \item $\n (\psi_1 \im \psi_2)$ по условию, противоречие.
+                \end{enumerate}
             \end{itemize}
         \end{itemize}
       \end{proof}
@@ -1718,9 +1740,10 @@ Modus Ponens (MP):
 
           \item $\varphi = (\psi_1 \im \psi_2)$.
 
-            $(\psi_1 \im \psi_2) \in \Delta \iff \psi_1 \nin \Delta \lor
-            \psi_2 \in \Delta \iff M_\Delta[\psi_1] = \mathrm{False} \lor
-            M_\Delta[\psi_2] = \mathrm{True}$
+            $(\psi_1 \im \psi_2) \in \Delta \iff (\psi_1 \nin \Delta \lor
+            \psi_2 \in \Delta) \iff M_\Delta[\psi_1] = \mathrm{False} \lor
+            M_\Delta[\psi_2] = \mathrm{True} \iff M_\Delta[\psi_1 \im
+            \psi_2] = \mathrm{True}$
         \end{itemize}
       \end{proof}
     \end{lemma}
@@ -1737,7 +1760,7 @@ Modus Ponens (MP):
     p)$, что невозможно.
 
     $\impliedby$ Теперь, пусть $\Gamma$ непротиворечиво, тогда его
-    можно расширить по лемме Линдебаума до полного множества $\Delta$.
+    можно расширить по лемме Линденбаума до полного множества $\Delta$.
     Тогда в модели $M_\Delta$ будут истинны все формулы из $\Gamma$
     благодаря предыдущей лемме.
   \end{proof}
@@ -1745,7 +1768,30 @@ Modus Ponens (MP):
 
 \subsection{Доказательства аксиом}
 
+Напоминание про силлогизм:
+\[
+  \frac{p \im q, q \im r}{p \im r}
+\]
+
 \begin{itemize}
+  \item (I0):
+    \[
+      p \im p
+    \]
+    \begin{proof}
+      \begin{enumerate}
+        \item $p \im ((p \im p) \im p)$ (I1)
+
+        \item $(p \im ((p \im p) \im p)) \im ((p \im (p \im p)) \im
+          (p \im p))$ (D)
+
+        \item $(p \im (p \im p)) \im (p \im p)$ (MP)
+
+        \item $p \im (p \im p)$ (I1)
+
+        \item $p \im p$ (MP)
+      \end{enumerate}
+    \end{proof}
   \item (I2):
     \[
       \n p \im (p \im q)
@@ -1773,13 +1819,15 @@ Modus Ponens (MP):
 
         \item $\n\n p \vdash \n\n\n\n p \im \n\n p$
 
-        \item $(\n\n\n\n p \im \n\n p) \im (\n p \im \n\n\n p)$
+        \item $(\n\n\n\n p \im \n\n p) \im (\n p \im \n\n\n p)$ (N)
 
-        \item $\n\n p \vdash \n p \im \n\n\n p$
+        \item $\n\n p \vdash \n p \im \n\n\n p$ (т.к. умеем выводить
+          $\n\n\n\n p \im \n\n p$ из $\n\n p$)
 
-        \item $(\n p \im \n\n\n p) \im (\n\n p \im p)$
+        \item $(\n p \im \n\n\n p) \im (\n\n p \im p)$ (N)
 
-        \item $\n\n p \vdash \n\n p \im p$
+        \item $\n\n p \vdash \n\n p \im p$ (т.к. умеем выводить $\n p
+          \im \n\n\n p$ из $\n\n p$)
 
         \item $\n\n p \vdash p$
       \end{enumerate}
@@ -1793,7 +1841,8 @@ Modus Ponens (MP):
       \begin{enumerate}
         \item $(\n\n\n p \im \n p) \im (p \im \n\n p)$ (N)
 
-        \item $\vdash \n\n\n p \im \n p$ (предыдущий пункт)
+        \item $\vdash \n\n\n p \im \n p$ (предыдущий пункт, частный
+          случай для $\n p$)
 
         \item $\vdash p \im \n\n p$ (MP)
       \end{enumerate}
@@ -1819,8 +1868,12 @@ Modus Ponens (MP):
           \n\n q$, $\vdash \n\n p \im \n\n q$.
         \end{proof}
       \end{lemma}
-      Имеем $(p \im q) \vdash \n\n p \im \n\n q$, откуда получаем $p
-      \im q \vdash \n q \im \n p$
+      Тогда получаем следующий вывод:
+      \begin{enumerate}
+        \item $p \im q \vdash \n\n p \im \n\n q$
+
+        \item $p \im q \vdash \n q \im \n p$ (N)
+      \end{enumerate}
     \end{proof}
 
   \item (NI):
@@ -1830,8 +1883,9 @@ Modus Ponens (MP):
     \begin{proof}
       Достаточно вывести $p \vdash \n q \im \n (p \im q)$. Если
       сможем доказать $p \vdash (p \im q) \im q$, то получим
-      требуемое. По теореме о дедукции это эквивалентно $p, p \im q
-      \vdash q$, по MP это верно.
+      требуемое (по предыдущему пункту $\n q \im \n(p \im q) \eq (p
+      \im q) \im p$). По теореме о дедукции это эквивалентно $p, p
+      \im q \vdash q$, по MP это верно.
     \end{proof}
 \end{itemize}
 
