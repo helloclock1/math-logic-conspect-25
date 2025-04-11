@@ -934,26 +934,25 @@
       \item $\varphi_i \in \Gamma \implies \mathcal{M} \models \varphi_i$
 
       \item $\exists j_1, \dots, j_k < i \colon \ds\frac{\varphi_{j_1},
-        \dots, \varphi{j_k}}{\varphi_i}$ --- частный случай правила
+        \dots, \varphi_{j_k}}{\varphi_i}$ --- частный случай правила
         из $\mathcal{R}$. Тогда по предположению индукции
         $\varphi_{j_1}, \dots, \varphi_{j_k}$ истинны в $\mathcal{M}$.
 
         \begin{lemma}
-          Если $\ds\frac{\phi_1, \dots, \phi_n}{\phi}$ корректно и
-          $\frac{\eta_1, \dots, \eta_n}{\eta}$ --- частный случай
-          $(P)$, то оно тоже корректно.
+          Если $\ds\frac{\varphi_1, \dots, \varphi_n}{\varphi}$
+          корректно и $\ds\frac{\eta_1, \dots, \eta_n}{\eta}$ ---
+          частный случай $(P)$, то оно тоже корректно.
           \begin{proof}
-            Имеем $\eta_1 = \psi_1[p_1/\theta_1, p_2/\theta_2, \dots,
-            p_n /\theta_n], \dots, \xi = \varphi[p_1/\theta_1, p_2/\theta_2,
+            Имеем $\eta_1 = \varphi_1[p_1/\theta_1, p_2/\theta_2, \dots,
+            p_n /\theta_n], \dots, \eta = \varphi[p_1/\theta_1, p_2/\theta_2,
             \dots, p_n/\theta_n]$
 
-            $P$ --- корректна $\implies$ $\forall \mathcal{M} \colon
-            \psi_1, \dots, \psi_n$ истинны $\implies \varphi$ --- истинна.
+            $P$ --- корректна $\implies$ $\forall M \colon \varphi_1,
+            \dots, \varphi_n$ истинны $\implies \varphi$ --- истинна.
 
-            Пусть $\eta_1, \dots, \eta_n$ истинны в модели
-            $\mathcal{M}$. Возьмём $\mathcal{M}'$ такую, что
-            $\forall i \colon \mathcal{M}' \models p_i \iff \mathcal{M} \models
-            \theta_i$.
+            Пусть $\eta_1, \dots, \eta_n$ истинны в модели $M$.
+            Возьмём $M'$ такую, что $\forall i \colon M' \models p_i
+            \iff \mathcal{M} \models \theta_i$.
 
             Утверждение: $\forall \varphi \colon \mathcal{M} \models
             \varphi \iff \mathcal{M} \models \varphi[p / \theta_1]$.
@@ -1887,6 +1886,164 @@ $\mathcal{R}$), если
       \im q) \im p$). По теореме о дедукции это эквивалентно $p, p
       \im q \vdash q$, по MP это верно.
     \end{proof}
+\end{itemize}
+
+\pagebreak
+
+\section{Лекция 9 (логика предикатов)}
+
+<<Все люди смертны, люди существуют, следовательно смертные существуют.>>:
+
+\[
+  \forall x [\mathrm{Man}(x) \im \mathrm{Mortal}(x)] \land \exists x
+  [\mathrm{Man}(x)] \im \exists x [\mathrm{Mortal}(x)]
+\]
+
+Великая теорема Ферма:
+
+\[
+  \forall x [\forall y [\forall z [\forall n [n \geqslant 3 \im \n
+  (x^n + y^n = z^n)]]]]
+\]
+
+\begin{definition}
+  Следующие строки являются (\textit{корректными} (\textit{valid}))
+  \textit{термами} в логике предикатов:
+  \begin{itemize}
+    \item \textbf{Имя переменной}: последовательность
+      буквенно-цифровых символов, начинающаяся с буквы из диапазона
+      $u-z$. Например, $x$, $y12$, $zLast$.
+
+    \item \textbf{Имя константы}: последовательность
+      буквенно-цифровых символов, начинающаяся с цифры или буквы из
+      диапазона $a-e$, либо одиночный символ подчёркивания (без
+      других символов до или после). Например, $0$, $e1$, $7x$, \_.
+
+    \item \textbf{$n$-арный вызов функции} вида $f(t_1, \dots, t_n)$,
+      где $f$ --- имя функции, обозначаемое последовательностью
+      буквенно-цифровых символов, начинающейся с буквы из диапазона
+      $f-t$, где $n \geqslant 1$, и каждый $t_i$ сам является
+      (корректным) термом.
+  \end{itemize}
+
+  Примеры корректных термов: $plus(x, y)$, $s(s(0))$, $f(g(x), h(7, y), c)$.
+\end{definition}
+
+\begin{definition}
+  \textit{Предикат} $P$ на множестве $\Omega \neq \varnothing$ ---
+  подмножество $P \sus \Omega^n$. Например, $(A, \leqslant)$, где
+  $\leqslant \sus A \x A$.
+\end{definition}
+
+\begin{definition}[Индуктивное определение формулы]
+  Следующие строки являются \textit{(корректными) формулами} в логике
+  предикатов:
+  \begin{itemize}
+    \item \textbf{Равенство} вида $t_1 = t_2$, где $t_1$, $t_2$ ---
+      (корректные) термы. Например, $0 = 0$, $s(0) = 1$, $plus(x, y)
+      = plus(y, x)$.
+
+    \item \textbf{$n$-арный предикат} вида $R(t_1, \dots, t_n)$, где
+      $R$ --- имя предиката, обозначаемое строкой буквенно-цифровых
+      символов, начинающийся с буквы из диапазона $F-T$, где $n
+      \geqslant 0$ (допускаются нульарные предикаты), и каждый $t_i$
+      --- терм. Например, $R(x, y)$, $Plus(s(0), x, s(x))$, $Q()$.
+
+    \item \textbf{Отрицание} вида $\n \phi$, где $\phi$ --- формула
+      (в Python: \~{}).
+
+    \item \textbf{Бинарная операция} вида $(\phi * \phi)$, где * ---
+      один из бинарных операторов $\lor, \land, \im$, а $\phi, \psi$
+      --- формулы (в Python --- |, \&, -->).
+
+    \item \textbf{Кванторная конструкция} вида $Qx[\phi]$, где $Q$
+      --- либо квантор всеобщности $\forall$ (в Python --- $A$), либо
+      квантор существования $\exists$ (в Python --- $E$), $x$ --- имя
+      переменной, а $\phi$ --- формула. Подформула $\phi$,
+      находящаяся внутри квадратных скобок в конструкции $Qx[\phi]$,
+      называется \textit{областью действия} квантора.
+  \end{itemize}
+
+  Примеры формул:
+  \begin{itemize}
+    \item $\forall x [x = x]$
+
+    \item $\exists x [R(7, y)]$
+
+    \item $\forall x [\exists y [R(x, y)]]$
+
+    \item $\forall x [(R(x) \lor \exists x [Q(x)])]$
+  \end{itemize}
+\end{definition}
+
+Есть два подхода к записи формул:
+\begin{enumerate}
+  \item Как у нас, есть <<полный>> набор возможных символов и
+    формально все можно использовать.
+
+  \item Мы сначала фиксируем набор символов, которые можно
+    использовать (называется \textit{сигнатура}), и определяем
+    формулу в данной сигнатуре.
+\end{enumerate}
+
+\begin{theorem}[Об однозначности разбора терма]
+  Существует единственное дерево разбора для каждого корректного терма.
+\end{theorem}
+
+\begin{theorem}[Об однозначности разбора формулы]
+  TODO
+\end{theorem}
+
+\begin{definition}[Семантика]
+  \textit{Моделью} (в логике предикатов) будем называть пару $M =
+  (\Omega, I)$, где $\Omega$ --- непустое множество элементов,
+  которое будем называть \textit{универсумом} (\textit{носителем})
+  нашей модели, а $I$ --- \textit{интерпретацией}, которая
+  интерпретирует константные, функциональные и предикатные символы. При этом
+  \begin{itemize}
+    \item для константого символа $c$: $I(c) \in \Omega$
+
+    \item для $n$-арного функционального символа $f$: $I(f) :
+      \Omega^n \to \Omega$
+
+    \item для $n$-арного предикатного символа $P$: $I(P) \sus \Omega^n$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Истинность формул]
+  \textit{Оценка} (\textit{assignment}) $A$ --- отображение
+  некоторого множества переменных в носитель модели $\Omega$.
+
+  Значение терма $t$ в данной модели $M$ при данной оценке $A$
+  определяется по индукции (это значение будем обозначать $[[t]]_{M,A}$)
+
+  Примеры:
+  \begin{itemize}
+    \item $[[c]]_{M,A} = I(c)$ --- константа
+
+    \item $[[x]]_{M,A} = A(x)$ --- переменная
+
+    \item $[[f(t_1, \dots, t_n)]] = I(f)([[t_1]]_{M,A}, \dots,
+      [[t_n]]_{M,A})$ --- функция
+  \end{itemize}
+\end{definition}
+
+Как подсчитывать значение выражения:
+\begin{itemize}
+  \item $[[t_1 = t_2]]_{M,A} = \mathrm{True} \iff [[t_1]]_{M,A} = [[t_2]]_{M,A}$
+
+  \item $[[P(t_1, \dots, t_n)]] = \mathrm{True} \iff ([[t_1]]_{M,A},
+    \dots, [[t_n]]_{M,A}) \sus I(P)$
+
+  \item
+    \begin{itemize}
+      \item $[[\forall x[\phi]]]_{M,A} = \mathrm{True} \iff
+        [[\phi]]_{M,A'} = \mathrm{True}$ для всех $w \sus \Omega \colon
+        A'(x) = w \land A'(y) = A(y)$ для всех переменных $y \neq x$.
+
+      \item $[[\exists x[\phi]]]_{M,A} = \mathrm{True}$ --- то же
+        самое, только вместо $\forall w$ имеем $\exists w$.
+    \end{itemize}
 \end{itemize}
 
 \end{document}
