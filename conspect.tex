@@ -2046,4 +2046,300 @@ $\mathcal{R}$), если
     \end{itemize}
 \end{itemize}
 
+\pagebreak
+
+\section{Лекция 10}
+
+\begin{definition}[Истинность формул (формулы)]
+  Истинность формул $\varphi$ в данной модели $M = (\Omega, I)$ при
+  данной оценке $A$ определяется по индукции:
+  \begin{itemize}
+    \item $[[t_1 = t_2]]_{M,A} =
+      \begin{cases}
+        \mathrm{True},\ \text{если $[[t_1]]_{M,A} = [[t_2]]_{M,A}$}\\
+        \mathrm{False},\ \text{иначе}
+      \end{cases}$
+
+    \item $[[R(t_1, \dots, t_n)]]_{M,A} =
+      \begin{cases}
+        \mathrm{True},\ \text{если $([[t_1]]_{M,A}, \dots,
+        [[t_n]]_{M,A}) \in [I(R)]$}\\
+        \mathrm{False},\ \text{иначе}
+      \end{cases}$
+
+    \item $[[\n \varphi]]_{M,A} = \n [[\varphi]]_{M,A}$
+
+    \item $[[\varphi * \psi]]_{M,A} = [[\varphi]]_{M,A} *
+      [[\psi]]_{M,A}$, где $* \in \set{\land, \lor, \im}$
+
+    \item $[[\forall x\varphi]]_{M,A} =
+      \begin{cases}
+        \mathrm{True},\ \text{если для всех $u \in \Omega \colon
+        [[\varphi]]_{M,A[x \mapsto u]} = \mathrm{True}$}\\
+        \mathrm{False},\ \text{иначе}
+      \end{cases}$
+
+    \item $[[\exists x\varphi]]_{M,A} =
+      \begin{cases}
+        \mathrm{True},\ \text{если найдётся $u \in \Omega \colon
+        [[\varphi]]_{M,A[x \mapsto u]} = \mathrm{True}$}\\
+        \mathrm{False},\ \text{иначе}
+      \end{cases}$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Связность/свободность переменных]
+  При <<навешивании>> квантора на формулу $Qx[\varphi]$ переменная $x$ в
+  формуле $\varphi$ становится \textit{связной}. Переменные, которые не
+  являются связными, называются \textit{свободными}. Одна и та же
+  переменная может быть в одном месте свободной, а в другом месте -- связной.
+
+  Пример:
+  \[
+    (\forall x[P(x, y) \im x = f(x, y)] \land \exists y[x = y])
+  \]
+  Связные переменные --- $x$ в первом кванторе, $y$ во втором кванторе.
+\end{definition}
+
+\begin{definition}
+  Формула $\varphi$ называется \textit{истинной в модели $M$}, если
+  для любой оценки $A$
+  \[
+    [[\varphi]]_{M,A} = \mathrm{True}
+  \]
+  Обозначение: $M \models \varphi$
+\end{definition}
+
+\begin{definition}
+  Формула $\varphi$ называется \textit{общезначимой}, если она
+  истинна в любой модели. Обозначение: $\models \varphi$.
+\end{definition}
+
+\begin{definition}
+  Формулы $\varphi_1, \varphi_2$ называются \textit{эквивалентными},
+  если для любой модели $M$ и любой оценки $A$ верно:
+  \[
+    [[\varphi_1]]_{M,A} = [[\varphi_2]]_{M,A}
+  \]
+  Обозначение: $\varphi_1 \eq \varphi_2$.
+\end{definition}
+
+\begin{lemma}[Сведение эквивалентности к общезначимости]
+  \[
+    \varphi_1 \eq \varphi_2 \iff \models \varphi_1 \leftrightarrow \varphi_2
+  \]
+\end{lemma}
+
+Полезные эквивалентности:
+\begin{align*}
+  \exists x[\varphi(x)] &\eq \exists y [\varphi(y)]\\
+  \forall x [\varphi(x)] &\eq \forall y [\varphi(y)]\\
+  \n \exists x [\varphi] &\eq \forall x [\n \varphi]\\
+  \n \forall x [\varphi] &\eq \exists x [\n \varphi]\\
+  \exists x [\varphi] \land \psi &\eq \exists x [\varphi \land
+  \psi]\ \text{если $\psi$ не содержит $x$}\\
+  \forall x [\varphi] \land \psi &\eq \forall x [\varphi \land
+  \psi]\ \text{если $\psi$ не содержит $x$}\\
+  &\text{аналогично для $\lor$}
+\end{align*}
+
+\begin{definition}
+  Формула имеет предваренную нормальную форму, если все предикаты
+  вынесены <<наружу>>.
+\end{definition}
+
+\begin{theorem}
+  У любой формулы есть эквивалентная ей формула в предваренной нормальной форме.
+\end{theorem}
+
+\subsection{Выразимые предикаты}
+
+Пусть $M = (\Omega, I)$ --- некоторая модель. Рассмотрим $k$
+переменных $x_1, \dots, x_n$ и формулу $\varphi$ такую, что её
+множество свободных переменных содержится в множестве $\set{x_1,
+\dots, x_n}$. Тогда можно считать, что значение формулы $\varphi$
+зависит от $k$ параметров. При этом формуле $\varphi$ будет
+соответствовать функция $\Omega^k \to \set{\mathrm{False},
+\mathrm{True}}$. Эквивалентным образом можно считать, что это не
+функция, а предикат $P_{\varphi}$ арности $k$;
+\[
+  (u_1, \dots, u_k) \in P_{\varphi} \iff [[\varphi]]_{M,A[x_i
+  \mapsto u_i]} = \mathrm{True}
+\]
+Пример 1: $(\NN, 0, s, +, \m, =)$ --- модель. Рассмотрим формулу
+\[
+  \varphi = \exists z [x_1 + z = x_2]
+\]
+Свободные переменные --- $x_1, x_2$. Тогда задаётся предикат арности 2
+\[
+  P_{\varphi} = \set{(u_1, u_2) \mid u_1 \leqslant u_2}
+\]
+Пример 2: модель та же, формула
+\[
+  \psi = \exists z \exists y [\n z = 0 \land \n z = s(0) \land
+  \n y = 0 \land \n y = s(0) \land x = yz]
+\]
+Тогда задаётся следующий предикат:
+\[
+  P_{\psi} = \set{n \mid n \text{ --- составное} \land n \geqslant 2}
+\]
+
+\begin{definition}[Выразимые предикаты]
+  Предикат $R$ на множестве $\Omega$ называется \textit{выразимым} в
+  модели $M$, если существует формула $\varphi$ такая, что $R = P_{\varphi}$.
+
+  Подмножество $\Omega$ по сути является предикатом арности 1.
+  Поэтому мы будем также говорить и о выразимых множествах.
+\end{definition}
+
+\subsection{Изоморфизмы}
+
+\begin{definition}[Изоморфизм]
+  Пусть $M_1 = (\Omega_1, I_1)$ и $M_2 = (\Omega_2, I_2)$ --- две
+  модели такие, что интерпретации интерпретируют одни и те же имена и
+  арности этих имён совпадают. Функция $\alpha \colon \Omega_1 \to
+  \Omega_2$ называется \textit{изоморфизмом}, если она биекция и
+  выполнены следующие условия:
+  \begin{enumerate}
+    \item $\alpha(I_1[c]) = I_2[c]$ для каждого константного имени из $I_1$;
+
+    \item $\alpha(I_1[f](u_1, \dots, u_k)) = I_2[f](\alpha(u_1),
+      \dots, \alpha(u_k))$ для каждого функционального имени $f$ из
+      $I_1$ и $(u_1, \dots, u_k) \in \Omega_1^k$;
+
+    \item $(u_1, \dots, u_k) \in I_1[R] \iff (\alpha(u_1), \dots,
+      \alpha(u_k)) \in I_2[R]$ для каждого предикатного имени $R$ из
+      $I_1$ и $(u_1, \dots, u_k) \in \Omega_1^k$.
+  \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+  Пусть $M_1 = (\Omega_1, I_1)$ и $M_2 = (\Omega_2, I_2)$ и $\alpha$
+  --- изоморфизм, тогда для лююбого терма $t$ и любой формулы
+  $\varphi$ верно, что (свободные) переменные, которые содержатся во
+  множестве $\set{x_1, \dots, x_k}$ верно следующее:
+  \begin{enumerate}
+    \item $\alpha([[t]]_{M_1, A[x_i \mapsto u_i]}) = [[t]]_{M_2,A[x_i
+      \mapsto \alpha(u_i)]}$
+
+    \item $[[\varphi]]_{M_1, A[x_i \mapsto u_i]} = [[\varphi]]_{M_2,A[x_i
+      \mapsto \alpha(u_i)]}$
+  \end{enumerate}
+  \begin{proof}
+    \begin{enumerate}
+      \item
+        Докажем по индукции.
+
+        \textbf{База}:
+        \begin{itemize}
+          \item
+            \[
+              \alpha([[c]]_{M_2,A[\dots]}) = \alpha(I_1[c]) = I_2[c] =
+              [[c]]_{M_2,A[\dots]}
+            \]
+
+          \item
+            \[
+              \alpha([[x_i]]_{M_1,A[x_i \mapsto u_i]}) = \alpha(u_i) =
+              [[x_i]]_{M_2,A[x_i \mapsto u_i]}
+            \]
+        \end{itemize}
+
+        \textbf{Шаг}:
+        \begin{align*}
+          \alpha([[f(t_1, \dots, t_n)]]_{M_1,A[\dots]}) &=
+          \alpha(I_1[f]([[t_1]]_{M_1,A}, \dots, [[t_n]]_{M_1,A})) =\\&=
+          I_2[f](\alpha([[t_1]]_{M_1,A}), \dots, \alpha([[t_n]]_{M_1,A})) =\\&=
+          I_2[f]([[t_1]]_{M_2,A[\dots]}, \dots, [[t_n]]_{M_2,A[\dots]}) =
+          [[f(t_1, \dots, t_n)]]
+        \end{align*}
+
+      \item
+        \begin{itemize}
+          \item  Знаем, что
+            \[
+              [[t_1 = t_2]]_{M_1,A_1} \iff [[t_1]]_{M_1,A_1} = [[t_2]]_{M_1,A_1}
+            \]
+            Тогда, используя инъективность функции $\alpha$ получим, что
+            это эквивалентно
+            \[
+              \underbrace{\alpha([[t_1]]_{M_1,A_1})}_{[[t_1]]_{M_2,A_2}}
+              =
+              \underbrace{\alpha([[t_2]]_{M_1,A_1})}_{[[t_2]]_{M_2,A_2}}
+              \iff [[t_1 = t_2]]_{M_2,A_2} = \mathrm{True}
+            \]
+
+          \item
+            \begin{align*}
+              [[R(t_1, \dots, t_n)]]_{M_1,A_1} = \mathrm{True} &\iff
+              ([[t_1]]_{M_1,A_1}, \dots, [[t_n]]_{M_1,A_1}) \in
+              I_1(R) \iff\\&\iff
+              (\alpha([[t_1]]_{M_1,A_1}), \dots,
+              \alpha([[t_n]]_{M_1,A_1})) \in I_2(R) \iff\\&\iff
+              ([[t_1]]_{M_2,A_2}, \dots, [[t_n]]_{M_2,A_2}) \in
+              I_2(R) \iff [[R(t_1, \dots, t_n)]]_{M_2,A_2}
+            \end{align*}
+
+          \item Для бинарных функций доказательства аналогичны,
+            докажем для конъюнкции:
+            \begin{align*}
+              [[\varphi_1 \land \varphi_2]]_{M_1,A_1} &=
+              [[\varphi_1]]_{M_1,A_1} \land [[\varphi_2]]_{M_1,A_1} =\\&=
+              [[\varphi_1]]_{M_2,A_2} \land [[\varphi_2]]_{M_2,A_2} =\\&=
+              [[\varphi_1 \land \varphi_2]]_{M_2,A_2}
+            \end{align*}
+
+          \item
+            \[
+              [[\forall y [\varphi]]]_{M_1,A_1} = \mathrm{True} \iff
+              \forall u \in \Omega_1 ([[\varphi]]_{M_1,A_1[y \mapsto
+              u]} = \mathrm{True})
+            \]
+            \[
+              [[\forall y [\varphi]]]_{M_2,A_2} = \mathrm{True} \iff
+              \forall u' \in \Omega_2 ([[\varphi]]_{M_2,A_2[y \mapsto
+              u']} = \mathrm{True})
+            \]
+            $\impliedby$: Пусть $[[\varphi]]_{M_1,A[x_i \mapsto u_i,
+            y \mapsto u]} = \mathrm{False} \iff [[\varphi]]_{M_2A[x_i
+            \mapsto \alpha(u_i), y \mapsto \alpha(u) = u']} = \mathrm{False}$
+
+            $\implies$:
+        \end{itemize}
+    \end{enumerate}
+    TODO: дописать
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  \textit{Автоморфизмом} называется изоморфизм в себя, т.е. функция
+  $\alpha \colon \Omega \to \Omega$, являющаяся изоморфизмом для
+  модели $M = (\Omega, I)$.
+
+  Очевидно, что тождественное отображение является автоморфизмом.
+  Такой автоморфизм будем называть \textit{тривиальным}. Но
+  существуют и нетривиальные автоморфизмы.
+\end{definition}
+
+\begin{definition}
+  Предикат $R \sus \Omega^k$ \textit{сохраняется при отображении
+  $\alpha \colon \Omega \to \Omega$}, если $(u_1, \dots, u_k) \in R
+  \iff (\alpha(u_1), \dots, \alpha(u_k)) \in R$.
+\end{definition}
+
+\begin{theorem}[Критерий невыразимости]
+  Если предикат $R$ не сохраняется при автоморфизме, то он невыразим
+  никакой формулой.
+  \begin{proof}
+    Рассмотрим предикат $R \sus \Omega^k$, тогда $\exists \varphi
+    \colon P_{\varphi} = R$. Возьмём $(u_1, \dots, u_k)$. Тогда
+    \begin{align*}
+      (u_1, \dots, u_k) \in R &\iff
+      [[\varphi]]_{M,A[x_i \mapsto u_i]} = \mathrm{True} \iff\\&\iff
+      [[\varphi_1]]_{M,A[x_i \mapsto \alpha(u_i)]} = \mathrm{True} \iff\\&\iff
+      (\alpha(u_1), \dots, \alpha(u_k)) \in R
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
 \end{document}
